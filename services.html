@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Services & Pricing — Glamorous Nails</title>
+<meta name="description" content="Full price list for Glamorous Nails: acrylic and gel nails, lashes, eyebrow shaping, facials, manicure & pedicure, makeup, and piercing services.">
+<meta property="og:title" content="Services & Pricing — Glamorous Nails">
+<meta property="og:description" content="Full price list for Glamorous Nails: acrylic and gel nails, lashes, eyebrow shaping, facials, manicure & pedicure, makeup, and piercing services.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="./assets/images/CEO.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Services & Pricing — Glamorous Nails">
+<meta name="twitter:description" content="Full price list for Glamorous Nails: acrylic and gel nails, lashes, eyebrow shaping, facials, manicure & pedicure, makeup, and piercing services.">
+<meta name="twitter:image" content="./assets/images/CEO.jpeg">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="services">
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="site-nav">
+  <div class="container nav-inner">
+    <nav class="nav-links left" aria-label="Primary">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="services.html" data-nav="services">Services</a>
+    </nav>
+    <a class="nav-logo" href="index.html">Glamorous Nails</a>
+    <div style="display:flex; align-items:center; gap: 16px; margin-left: auto;">
+      <nav class="nav-links right" aria-label="Secondary">
+        <a href="about.html" data-nav="about">About</a>
+        <a href="contact.html" data-nav="contact">Contact</a>
+        <a class="btn btn-primary btn-sm nav-book-btn" href="booking.html">Book now</a>
+      </nav>
+      <div class="nav-actions" style="display: flex; align-items: center; gap: 4px;">
+        <button class="nav-icon-btn" id="navSearchBtn" aria-label="Search services">
+          <svg viewBox="0 0 24 24"><path d="M10 2a8 8 0 105.293 13.707l5 5a1 1 0 001.414-1.414l-5-5A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg>
+        </button>
+        <a class="nav-icon-btn" href="booking.html" aria-label="Cart">
+          <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0020 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          <span class="cart-badge" id="navCartBadge">0</span>
+        </a>
+      </div>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="services.html">Services</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+  <a class="btn btn-primary btn-block" href="booking.html">Book now</a>
+</div>
+
+<main id="main">
+  <div class="page-hero container">
+    <span class="eyebrow">Menu &amp; pricing</span>
+    <h1>Every service, one clear price.</h1>
+    <p class="lede" style="margin:14px auto 0;">Prices are shown in <span data-gn="currency">GH₵</span> and payable in person at the studio — no online payments, no deposits.</p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="chip-row" id="categoryChips"></div>
+      <div id="serviceSections"></div>
+
+      <div class="center-text reveal" style="margin-top:24px;">
+        <a class="btn btn-primary" href="booking.html">Start a booking</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="container two-col">
+      <div class="stack-lg reveal">
+        <span class="eyebrow">Good to know</span>
+        <h2>Simple, in-person pricing</h2>
+        <p class="lede">Long acrylic sets vary with length and design, so that price is quoted "and above" — your technician will confirm the exact total before starting. Everything else on the menu is fixed.</p>
+      </div>
+      <div class="stack-lg reveal">
+        <div class="pill-note"><span class="badge-dot"></span> Cash and mobile money accepted in-studio</div>
+        <div class="pill-note"><span class="badge-dot"></span> No online payment required to book</div>
+        <div class="pill-note"><span class="badge-dot"></span> Prices reviewed periodically by the studio</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Glamorous Nails</div>
+        <p style="max-width:32ch;">Considered nail artistry, lashes, brows, and skin — in Haatso.</p>
+        <div class="social-row">
+          <a class="social-icon" data-gn-href="contact.tiktok_url" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 5.82c-1-.9-1.6-2.17-1.6-3.57h-3.1v13.7a3.1 3.1 0 1 1-2.19-2.96V9.94a6.2 6.2 0 1 0 5.29 6.15V9.7a8.06 8.06 0 0 0 4.6 1.44V8.03a4.85 4.85 0 0 1-2.99-2.2z"/></svg></a>
+          <a class="social-icon" data-gn-href="contact.facebook_url" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M13.5 21v-7.6h2.55l.38-2.96H13.5V8.55c0-.86.24-1.44 1.47-1.44h1.57V4.46A21 21 0 0 0 14.24 4c-2.26 0-3.8 1.38-3.8 3.9v2.54H8v2.96h2.44V21h3.06z"/></svg></a>
+          <a class="social-icon" data-gn-href="contact.instagram_url" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c2.7 0 3 .01 4.12.06 1.1.05 1.85.23 2.5.48.68.27 1.25.62 1.82 1.19.57.57.92 1.14 1.19 1.82.25.65.43 1.4.48 2.5.05 1.12.06 1.42.06 4.12s-.01 3-.06 4.12c-.05 1.1-.23 1.85-.48 2.5a5 5 0 0 1-1.19 1.82 5 5 0 0 1-1.82 1.19c-.65.25-1.4.43-2.5.48-1.12.05-1.42.06-4.12.06s-3-.01-4.12-.06c-1.1-.05-1.85-.23-2.5-.48a5 5 0 0 1-1.82-1.19 5 5 0 0 1-1.19-1.82c-.25-.65-.43-1.4-.48-2.5C2.21 15 2.2 14.7 2.2 12s.01-3 .06-4.12c.05-1.1.23-1.85.48-2.5.27-.68.62-1.25 1.19-1.82a5 5 0 0 1 1.82-1.19c.65-.25 1.4-.43 2.5-.48C9 2.21 9.3 2.2 12 2.2zm0 1.8c-2.66 0-2.97.01-4.02.06-.97.04-1.5.2-1.85.34-.46.18-.8.4-1.15.75-.35.35-.57.69-.75 1.15-.14.35-.3.88-.34 1.85-.05 1.05-.06 1.36-.06 4.02s.01 2.97.06 4.02c.04.97.2 1.5.34 1.85.18.46.4.8.75 1.15.35.35.69.57 1.15.75.35.14.88.3 1.85.34 1.05.05 1.36.06 4.02.06s2.97-.01 4.02-.06c.97-.04 1.5-.2 1.85-.34.46-.18.8-.4 1.15-.75.35-.35.57-.69.75-1.15.14-.35.3-.88.34-1.85.05-1.05.06-1.36.06-4.02s-.01-2.97-.06-4.02c-.04-.97-.2-1.5-.34-1.85a3.2 3.2 0 0 0-.75-1.15 3.2 3.2 0 0 0-1.15-.75c-.35-.14-.88-.3-1.85-.34-1.05-.05-1.36-.06-4.02-.06zm0 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 1.8a2.7 2.7 0 1 0 0 5.4 2.7 2.7 0 0 0 0-5.4zm5.73-1.99a1.05 1.05 0 1 1-2.1 0 1.05 1.05 0 0 1 2.1 0z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="index.html">Home</a>
+        <a href="services.html">Services &amp; pricing</a>
+        <a href="about.html">About</a>
+        <a href="booking.html">Book an appointment</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p data-gn="contact.location">Haatso Supermarket Junction</p>
+        <a data-gn-wa-link href="#" target="_blank" rel="noopener">WhatsApp us</a>
+        <a data-gn-tel-link href="#">Call the studio</a>
+        <a href="contact.html">Contact page</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <span>&copy; <span data-gn-year></span> Glamorous Nails. All rights reserved.</span>
+        <span>Made by Nana Kwame Dickson</span>
+      </div>
+      <a href="admin.html">Studio login</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/services.js"></script>
+</body>
+</html>

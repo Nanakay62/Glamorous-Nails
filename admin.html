@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Studio Login — Glamorous Nails Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="admin">
+
+<header class="site-nav">
+  <div class="container nav-inner">
+    <a class="nav-logo" style="position:static; transform:none;" href="index.html">Glamorous Nails</a>
+    <div style="margin-left:auto; display:flex; gap:12px;">
+      <a class="btn btn-secondary btn-sm" href="index.html">View site</a>
+      <button class="btn btn-secondary btn-sm" id="adminLogout" style="display:none;">Log out</button>
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="container">
+
+    <!-- LOGIN -->
+    <div class="admin-shell is-visible" id="adminLoginView">
+      <div class="admin-login stack-lg">
+        <div class="center-text">
+          <span class="eyebrow">Studio access</span>
+          <h1 class="h2" style="margin-top:8px;">Sign in to manage the studio</h1>
+          <p class="lede" style="margin:10px auto 0;">Update prices, close dates, and see booking requests.</p>
+        </div>
+        <form id="adminLoginForm" class="booking-panel stack-lg">
+          <div class="field">
+            <label for="admin-password">Password</label>
+            <input id="admin-password" type="password" autocomplete="current-password" required>
+          </div>
+          <p class="form-note" id="adminLoginError" style="color:var(--danger);"></p>
+          <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+          <p class="form-note center-text"><a href="#" id="showResetLink" style="text-decoration:underline;">Forgot password?</a></p>
+          <p class="form-note center-text">Demo password: <code>glamorous2026</code></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- RESET -->
+    <div class="admin-shell" id="adminResetView">
+      <div class="admin-login stack-lg">
+        <div class="center-text">
+          <span class="eyebrow">Reset password</span>
+          <h1 class="h2" style="margin-top:8px;">Answer your security question</h1>
+        </div>
+        <form id="adminResetForm" class="booking-panel stack-lg">
+          <div class="field">
+            <label id="resetQuestion">What street is the studio on?</label>
+            <input id="reset-answer" type="text" placeholder="Your answer" required>
+          </div>
+          <div class="field">
+            <label for="reset-newpw">New password</label>
+            <input id="reset-newpw" type="password" minlength="6" required>
+          </div>
+          <div class="field">
+            <label for="reset-confirmpw">Confirm new password</label>
+            <input id="reset-confirmpw" type="password" minlength="6" required>
+          </div>
+          <p class="form-note" id="adminResetError" style="color:var(--danger);"></p>
+          <button class="btn btn-primary btn-block" type="submit">Update password</button>
+          <p class="form-note center-text"><a href="#" id="backToLogin" style="text-decoration:underline;">Back to sign in</a></p>
+          <p class="form-note center-text">Demo answer: <code>Haatso</code></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="admin-shell" id="adminDashboard">
+      <div class="admin-topbar">
+        <div>
+          <h1 class="h2" style="margin:0;">Studio dashboard</h1>
+          <span class="status-banner"><span class="badge-dot"></span> Live — edits appear on the site instantly</span>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="resetDefaultsBtn">Reset to defaults</button>
+      </div>
+
+      <div class="admin-grid">
+        <div>
+          <div class="admin-card">
+            <h3 style="margin-bottom:14px;">Pricing</h3>
+            <div style="overflow-x:auto;">
+              <table class="admin-table">
+                <thead><tr><th>Category</th><th>Service name</th><th>Price</th><th>Note</th></tr></thead>
+                <tbody id="pricingTableBody"></tbody>
+              </table>
+            </div>
+            <div class="hero-actions" style="justify-content:space-between; margin-top:16px;">
+              <span class="form-note" id="pricingSavedNote" style="opacity:0.6;">Edit values, then save.</span>
+              <button class="btn btn-primary btn-sm" id="savePricing">Save pricing</button>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <h3 style="margin-bottom:14px;">Closed dates</h3>
+            <p class="form-note" style="margin-bottom:12px;">Dates added here are removed from the booking calendar immediately.</p>
+            <div class="hero-actions" style="justify-content:flex-start;">
+              <input type="date" id="newClosedDate" class="field" style="padding:12px 14px; border:1px solid var(--line); border-radius:10px; background:var(--bg-soft);">
+              <button class="btn btn-secondary btn-sm" id="addClosedDate">Close this date</button>
+            </div>
+            <div id="closedDatesList" style="margin-top:14px;"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="admin-card">
+            <h3 style="margin-bottom:14px;">Recent booking requests</h3>
+            <p class="form-note" style="margin-bottom:10px;">Logged from this browser only — full cross-device history needs the Firebase/Supabase upgrade below.</p>
+            <div id="bookingLog"></div>
+          </div>
+          <div class="admin-card">
+            <h3 style="margin-bottom:10px;">Going live for real</h3>
+            <p class="service-desc">This dashboard syncs instantly across tabs on one device already. To sync across every phone and computer the studio uses, connect a Firebase or Supabase project and point <code>GNStore</code> at it — the rest of the site doesn't need to change.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none; padding-top:0;">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <span>&copy; <span data-gn-year></span> Glamorous Nails. All rights reserved.</span>
+        <span>Made by Nana Kwame Dickson</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
