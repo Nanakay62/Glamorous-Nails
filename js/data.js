@@ -12,7 +12,7 @@ const GN_DEFAULT_DATA = {
   "tagline": "Considered nail artistry, made for everyday hands.",
   "currency": "GH\u20B5",
   "contact": {
-    "whatsapp_dispatch": "233240878736",
+    "whatsapp_dispatch": "233240876736",
     "backup_phone": "0502743916",
     "instagram": "glamorousbeautyplus",
     "facebook": "Arda Sodjina",
