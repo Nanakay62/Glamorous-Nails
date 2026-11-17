@@ -1283,3 +1283,9 @@ img.ph {
   min-width: 0;
   max-width: 100%;
 }
+
+/* Fix selected calendar date contrast */
+.cal-cell.cal-selected {
+  background: var(--oxblood) !important;
+  color: #FFFFFF !important;
+}
