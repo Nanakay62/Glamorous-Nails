@@ -38,15 +38,15 @@ const GN_DEFAULT_DATA = {
       "name": "Nail Services",
       "icon": "\uD83D\uDC85",
       "items": [
-        { "id": "n1", "name": "Short Nails", "price": 150, "image": "./assets/images/short_nails.jpeg" },
-        { "id": "n2", "name": "Medium Nails", "price": 170, "image": "./assets/images/medium_nails.jpeg" },
-        { "id": "n3", "name": "Long Acrylic", "price": 200, "note": "and above", "image": "./assets/images/long_acrylic.jpeg" },
-        { "id": "n4", "name": "Stick-on with Gel and Design", "price": 100, "image": "./assets/images/stick_on_design.jpeg" },
-        { "id": "n5", "name": "Stick-on without Design", "price": 80, "image": "./assets/images/stick_on_design1.jpeg" },
-        { "id": "n6", "name": "Stick-on with Normal Polish", "price": 50, "image": "./assets/images/stick_on_normal_polish.jpeg" },
-        { "id": "n7", "name": "Gel Polish", "price": 45, "image": "./assets/images/gel_polish.jpeg" },
-        { "id": "n8", "name": "Normal Polish", "price": 20, "image": "./assets/images/stickon_polish.jpeg" },
-        { "id": "n9", "name": "Refill", "price": 100, "image": "./assets/images/refill.jpeg" }
+        { "id": "n1", "name": "Short Nails", "price": 150, "durationMinutes": 60, "image": "./assets/images/short_nails.jpeg" },
+        { "id": "n2", "name": "Medium Nails", "price": 170, "durationMinutes": 90, "featured": true, "image": "./assets/images/medium_nails.jpeg" },
+        { "id": "n3", "name": "Long Acrylic", "price": 200, "note": "from", "durationMinutes": 120, "featured": true, "image": "./assets/images/long_acrylic.jpeg" },
+        { "id": "n4", "name": "Stick-on with Gel and Design", "price": 100, "durationMinutes": 60, "image": "./assets/images/stick_on_design.jpeg" },
+        { "id": "n5", "name": "Stick-on without Design", "price": 80, "durationMinutes": 45, "image": "./assets/images/stick_on_design1.jpeg" },
+        { "id": "n6", "name": "Stick-on with Normal Polish", "price": 50, "durationMinutes": 40, "image": "./assets/images/stick_on_normal_polish.jpeg" },
+        { "id": "n7", "name": "Gel Polish", "price": 45, "durationMinutes": 30, "image": "./assets/images/gel_polish.jpeg" },
+        { "id": "n8", "name": "Normal Polish", "price": 20, "durationMinutes": 20, "image": "./assets/images/stickon_polish.jpeg" },
+        { "id": "n9", "name": "Refill", "price": 100, "durationMinutes": 75, "image": "./assets/images/refill.jpeg" }
       ]
     },
     {
@@ -54,10 +54,10 @@ const GN_DEFAULT_DATA = {
       "name": "Lashes & Eyebrows",
       "icon": "\uD83D\uDC41\uFE0F",
       "items": [
-        { "id": "l1", "name": "Lashes", "price": 80, "image": "./assets/images/lashes.jpg" },
-        { "id": "l2", "name": "Strip Lashes", "price": 30, "image": "./assets/images/strip%20lashes.jpg" },
-        { "id": "e1", "name": "Eyebrow Shaping", "price": 15, "image": "./assets/images/eyebrow_shaping.jpg" },
-        { "id": "e2", "name": "Microblading", "price": 500, "image": "./assets/images/micro_blading.jpeg" }
+        { "id": "l1", "name": "Lashes", "price": 80, "durationMinutes": 90, "featured": true, "image": "./assets/images/lashes.jpg" },
+        { "id": "l2", "name": "Strip Lashes", "price": 30, "durationMinutes": 20, "image": "./assets/images/strip%20lashes.jpg" },
+        { "id": "e1", "name": "Eyebrow Shaping", "price": 15, "durationMinutes": 15, "image": "./assets/images/eyebrow_shaping.jpg" },
+        { "id": "e2", "name": "Microblading", "price": 500, "durationMinutes": 120, "image": "./assets/images/micro_blading.jpeg" }
       ]
     },
     {
@@ -65,9 +65,9 @@ const GN_DEFAULT_DATA = {
       "name": "Facial & Manicure/Pedicure",
       "icon": "\u2728",
       "items": [
-        { "id": "f1", "name": "Facials", "price": 70, "image": "./assets/images/facials.jpg" },
-        { "id": "mp1", "name": "Pedicure", "price": 120, "image": "./assets/images/pedicure.jpg" },
-        { "id": "mp2", "name": "Manicure", "price": 80, "image": "./assets/images/manicure.jpeg" }
+        { "id": "f1", "name": "Facials", "price": 70, "durationMinutes": 60, "image": "./assets/images/facials.jpg" },
+        { "id": "mp1", "name": "Pedicure", "price": 120, "durationMinutes": 60, "featured": true, "image": "./assets/images/pedicure.jpg" },
+        { "id": "mp2", "name": "Manicure", "price": 80, "durationMinutes": 45, "image": "./assets/images/manicure.jpeg" }
       ]
     },
     {
@@ -75,8 +75,8 @@ const GN_DEFAULT_DATA = {
       "name": "Makeup Services",
       "icon": "\uD83D\uDC84",
       "items": [
-        { "id": "m1", "name": "Makeup", "price": 170, "image": "./assets/images/makeup.jpg" },
-        { "id": "m2", "name": "Makeup with Lashes", "price": 200, "image": "./assets/images/makeup_with_lashes.jpg" }
+        { "id": "m1", "name": "Makeup", "price": 170, "durationMinutes": 60, "image": "./assets/images/makeup.jpg" },
+        { "id": "m2", "name": "Makeup with Lashes", "price": 200, "durationMinutes": 75, "image": "./assets/images/makeup_with_lashes.jpg" }
       ]
     },
     {
@@ -84,11 +84,11 @@ const GN_DEFAULT_DATA = {
       "name": "Piercing Services",
       "icon": "\uD83D\uDC8E",
       "items": [
-        { "id": "p1", "name": "Nose Pierce", "price": 80, "image": "./assets/images/nose_pierce.jpg" },
-        { "id": "p2", "name": "Belly Pierce", "price": 200, "image": "./assets/images/belly_pierce.jpg" },
-        { "id": "p3", "name": "Tongue Pierce", "price": 200, "image": "./assets/images/tongue_pierce.png" },
-        { "id": "p4", "name": "Tragus Pierce", "price": 100, "image": "./assets/images/tragus_pierce.png" },
-        { "id": "p5", "name": "Rook Pierce", "price": 100, "image": "./assets/images/rook_pierce.png" }
+        { "id": "p1", "name": "Nose Pierce", "price": 80, "durationMinutes": 20, "image": "./assets/images/nose_pierce.jpg" },
+        { "id": "p2", "name": "Belly Pierce", "price": 200, "durationMinutes": 30, "image": "./assets/images/belly_pierce.jpg" },
+        { "id": "p3", "name": "Tongue Pierce", "price": 200, "durationMinutes": 30, "image": "./assets/images/tongue_pierce.png" },
+        { "id": "p4", "name": "Tragus Pierce", "price": 100, "durationMinutes": 25, "image": "./assets/images/tragus_pierce.png" },
+        { "id": "p5", "name": "Rook Pierce", "price": 100, "durationMinutes": 25, "image": "./assets/images/rook_pierce.png" }
       ]
     }
   ],
@@ -237,6 +237,44 @@ const GNStore = (() => {
     }
   });
 
+  function formatDuration(mins) {
+    const m = Number(mins) || 60;
+    if (m < 60) return `${m} min`;
+    const h = Math.floor(m / 60);
+    const rem = m % 60;
+    return rem ? `${h} hr ${rem} min` : `${h} hr${h > 1 ? "s" : ""}`;
+  }
+
+  function formatPrice(item, currency = "GH\u20B5") {
+    if (!item) return "";
+    if (item.note === "from") return `from ${currency}${item.price}`;
+    return `${currency}${item.price}${item.note ? ` ${item.note}` : ""}`;
+  }
+
+  async function getReviews() {
+    try {
+      const snap = await getDocs(query(collection(db, "reviews"), limit(12)));
+      if (!snap.empty) {
+        return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+      }
+    } catch (e) {
+      // Fallback to local JSON if Firestore reviews collection is not readable or empty
+    }
+    try {
+      const res = await fetch("./data/reviews.json");
+      if (res.ok) return await res.json();
+    } catch (e) {}
+    return [];
+  }
+
+  async function addReview(entry) {
+    await addDoc(collection(db, "reviews"), entry);
+  }
+
+  async function deleteReview(id) {
+    await deleteDoc(doc(db, "reviews", id));
+  }
+
   return {
     load,
     save,
@@ -252,7 +290,12 @@ const GNStore = (() => {
     getCart,
     toggleCartItem,
     clearCart,
-    onCartChange
+    onCartChange,
+    formatDuration,
+    formatPrice,
+    getReviews,
+    addReview,
+    deleteReview
   };
 })();
 

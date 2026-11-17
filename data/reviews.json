@@ -1,0 +1,23 @@
+[
+  {
+    "id": "r1",
+    "author": "[CLIENT NAME 1]",
+    "service": "[SERVICE NAME]",
+    "rating": 5,
+    "quote": "[PLACEHOLDER: Paste a real client review here or add reviews in Admin -> Reviews.]"
+  },
+  {
+    "id": "r2",
+    "author": "[CLIENT NAME 2]",
+    "service": "[SERVICE NAME]",
+    "rating": 5,
+    "quote": "[PLACEHOLDER: Paste a real client review here or add reviews in Admin -> Reviews.]"
+  },
+  {
+    "id": "r3",
+    "author": "[CLIENT NAME 3]",
+    "service": "[SERVICE NAME]",
+    "rating": 5,
+    "quote": "[PLACEHOLDER: Paste a real client review here or add reviews in Admin -> Reviews.]"
+  }
+]

@@ -151,6 +151,51 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Footer year ---------- */
   document.querySelectorAll('[data-gn-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
 
+  /* ---------- Home Page: Popular Services & Reviews ---------- */
+  const popularGrid = document.getElementById('homePopularServices');
+  function renderPopularServices(data) {
+    if (!popularGrid || !data) return;
+    const allItems = data.categories.flatMap((c) => c.items);
+    let featured = allItems.filter((i) => i.featured);
+    if (featured.length < 4) {
+      const fallbackIds = ['n3', 'n2', 'l1', 'mp1'];
+      featured = fallbackIds.map((id) => allItems.find((i) => i.id === id)).filter(Boolean);
+    }
+    popularGrid.innerHTML = featured.slice(0, 4).map((item) => `
+      <article class="service-card">
+        <img class="ph" src="${item.image}" alt="${item.name} at Glamorous Nails" width="400" height="300" loading="lazy">
+        <div class="service-card-body">
+          <h3>${item.name}</h3>
+          <div class="service-meta">${GNStore.formatDuration(item.durationMinutes)}</div>
+          <div class="service-card-footer">
+            <p class="service-price">${GNStore.formatPrice(item, data.currency)}</p>
+            <a class="btn btn-primary btn-sm" href="booking.html?service=${encodeURIComponent(item.id)}">Book</a>
+          </div>
+        </div>
+      </article>
+    `).join('');
+  }
+  renderPopularServices(salon);
+  GNStore.onChange((data) => {
+    salon = data;
+    renderPopularServices(data);
+  });
+
+  const reviewsGrid = document.getElementById('homeReviewsGrid');
+  if (reviewsGrid && GNStore.getReviews) {
+    GNStore.getReviews().then((reviews) => {
+      reviewsGrid.innerHTML = (reviews || []).slice(0, 3).map((r) => `
+        <article class="review-card">
+          <p class="review-quote">"${r.quote || ''}"</p>
+          <div>
+            <div class="review-author">${r.author || '[CLIENT NAME]'}</div>
+            ${r.service ? `<div class="review-service">${r.service}</div>` : ''}
+          </div>
+        </article>
+      `).join('');
+    });
+  }
+
   /* ---------- Cart Badge ---------- */
   function updateCartBadge(cart) {
     document.querySelectorAll('#navCartBadge').forEach(badge => {
