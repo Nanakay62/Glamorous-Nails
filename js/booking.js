@@ -95,7 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
                   <span class="booking-item-name">${item.name}</span>
                   <input type="checkbox" data-id="${item.id}" ${preselects.includes(item.id) ? 'checked' : ''}>
                 </div>
-                <span class="service-price">${currency()}${item.price}${item.note ? ` <span class="service-note">${item.note}</span>` : ''}</span>
+                <span class="service-meta">${GNStore.formatDuration(item.durationMinutes)}</span>
+                <span class="service-price">${GNStore.formatPrice(item, currency())}</span>
               </div>
             </label>`).join('')}
         </div>
@@ -147,6 +148,10 @@ document.addEventListener('DOMContentLoaded', () => {
     renderSummary();
   }
 
+  function totalDurationMinutes() {
+    return Object.values(state.selected).reduce((sum, s) => sum + (Number(s.item.durationMinutes) || 60), 0);
+  }
+
   function renderSummary() {
     const ids = Object.keys(state.selected);
     if (!ids.length) {
@@ -163,9 +168,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const { item } = state.selected[id];
       total += item.price;
       if (item.note) hasEstimate = true;
-      return `<div class="summary-row"><span>${item.name}</span><span>${currency()}${item.price}${item.note ? '+' : ''}</span></div>`;
+      return `<div class="summary-row"><span>${item.name} <small style="color:var(--ink-soft);">(${GNStore.formatDuration(item.durationMinutes)})</small></span><span>${GNStore.formatPrice(item, currency())}</span></div>`;
     }).join('');
-    els.summaryTotal.textContent = `Estimated total: ${currency()}${total}${hasEstimate ? '+' : ''}`;
+    els.summaryTotal.textContent = `Estimated total: ${currency()}${total}${hasEstimate ? '+' : ''} · ${GNStore.formatDuration(totalDurationMinutes())}`;
     updateStickyBar();
   }
 
@@ -206,10 +211,45 @@ document.addEventListener('DOMContentLoaded', () => {
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   }
 
+  function parseSlotMinutes(label) {
+    const m = label.match(/^(\d+):(\d+)\s*(AM|PM)$/i);
+    if (!m) return 0;
+    let h = parseInt(m[1], 10);
+    const min = parseInt(m[2], 10);
+    const ampm = m[3].toUpperCase();
+    if (ampm === 'PM' && h !== 12) h += 12;
+    if (ampm === 'AM' && h === 12) h = 0;
+    return h * 60 + min;
+  }
+
+  function getDayWindowMinutes(iso) {
+    const d = new Date(iso + 'T00:00:00');
+    const day = d.getDay(); // 0 = Sun, 6 = Sat
+    if (day === 0) return { open: 12 * 60, close: 18 * 60 };
+    if (day === 6) return { open: 9 * 60, close: 20 * 60 };
+    return { open: 9 * 60, close: 19 * 60 };
+  }
+
   function renderSlots() {
     if (!state.date) { els.slotList.innerHTML = `<p class="form-note">Pick a date to see available times.</p>`; return; }
-    els.slotList.innerHTML = TIME_SLOTS.map((t) =>
-      `<button class="chip slot-chip${state.time === t ? ' is-active' : ''}" data-time="${t}">${t}</button>`
+    const dur = totalDurationMinutes();
+    const { open, close } = getDayWindowMinutes(state.date);
+    const available = TIME_SLOTS.filter((t) => {
+      const start = parseSlotMinutes(t);
+      return start >= open && (start + dur) <= close;
+    });
+    if (!available.length) {
+      els.slotList.innerHTML = `<p class="form-note">No time slots fit your ${GNStore.formatDuration(dur)} selection before closing on this day. Please pick another day.</p>`;
+      state.time = null;
+      updateStep2NextState();
+      return;
+    }
+    if (state.time && !available.includes(state.time)) {
+      state.time = null;
+      updateStep2NextState();
+    }
+    els.slotList.innerHTML = available.map((t) =>
+      `<button type="button" class="chip slot-chip${state.time === t ? ' is-active' : ''}" data-time="${t}">${t}</button>`
     ).join('');
     els.slotList.querySelectorAll('.slot-chip').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -335,10 +375,27 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('calPrev').addEventListener('click', () => { state.calendarMonthOffset--; renderCalendar(); });
   document.getElementById('calNext').addEventListener('click', () => { state.calendarMonthOffset++; renderCalendar(); });
 
+  function isValidGhanaPhone(raw) {
+    const cleaned = raw.replace(/[\s\-()]/g, '');
+    return /^(?:\+?233|0)(?:2[034678]|5[045679])\d{7}$/.test(cleaned);
+  }
+
   els.form3.addEventListener('submit', (e) => {
     e.preventDefault();
+    const phoneInput = document.getElementById('bk-phone');
+    const phoneErr = document.getElementById('bk-phone-error');
+    const rawPhone = phoneInput.value.trim();
+    if (!isValidGhanaPhone(rawPhone)) {
+      if (phoneErr) {
+        phoneErr.textContent = 'Enter a valid Ghana number (e.g. 024 000 0000 or +233 24 000 0000).';
+        phoneErr.style.display = 'block';
+      }
+      phoneInput.focus();
+      return;
+    }
+    if (phoneErr) phoneErr.style.display = 'none';
     state.name = document.getElementById('bk-name').value.trim();
-    state.phone = document.getElementById('bk-phone').value.trim();
+    state.phone = rawPhone;
     state.notes = document.getElementById('bk-notes').value.trim();
     renderReview();
     goToStep(4);
