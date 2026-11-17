@@ -165,7 +165,9 @@ document.addEventListener("DOMContentLoaded", () => {
         </td>
         <td data-label="Service name"><input type="text" class="edit-name" value="${escapeAttr(item.name)}"></td>
         <td data-label="Price"><input type="number" class="edit-price" value="${Number(item.price) || 0}" min="0"></td>
-        <td data-label="Note"><input type="text" class="edit-note" value="${escapeAttr(item.note || "")}" placeholder="e.g. and above"></td>
+        <td data-label="Duration (min)"><input type="number" class="edit-duration" value="${Number(item.durationMinutes) || 60}" min="5" step="5" style="width:76px;"></td>
+        <td data-label="Home"><input type="checkbox" class="edit-featured" ${item.featured ? 'checked' : ''} title="Show on home page"></td>
+        <td data-label="Note"><input type="text" class="edit-note" value="${escapeAttr(item.note || "")}" placeholder="e.g. from"></td>
         <td data-label=""><button class="btn btn-secondary btn-sm delete-product" type="button">Delete</button></td>
       </tr>`).join("")).join("");
 
@@ -207,6 +209,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
           item.name = row.querySelector(".edit-name").value.trim() || item.name;
           item.price = Number(row.querySelector(".edit-price").value) || 0;
+          item.durationMinutes = Number(row.querySelector(".edit-duration").value) || 60;
+          item.featured = !!row.querySelector(".edit-featured")?.checked;
           const note = row.querySelector(".edit-note").value.trim();
           if (note) item.note = note; else delete item.note;
 
@@ -259,7 +263,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const item = {
       id: uniqueId(name, "item"),
       name,
-      price: Number(document.getElementById("newProductPrice").value) || 0
+      price: Number(document.getElementById("newProductPrice").value) || 0,
+      durationMinutes: 60
     };
     const note = document.getElementById("newProductNote").value.trim();
     if (note) item.note = note;
