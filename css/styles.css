@@ -671,7 +671,7 @@ a.video-frame:hover{ transform: scale(1.02); transition: transform .3s var(--eas
 }
 .reveal.is-visible{
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: none;
 }
 @media (prefers-reduced-motion: reduce){
   .reveal{ opacity: 1 !important; transform: none !important; transition: none !important; }
@@ -2514,7 +2514,7 @@ img.ph {
 .gn-lightbox {
   position: fixed;
   inset: 0;
-  z-index: 1200;
+  z-index: 9999;
   background: rgba(36, 16, 27, 0.88);
   backdrop-filter: blur(6px);
   display: flex;
