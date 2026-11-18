@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     notes: ''
   };
 
-  const TIME_SLOTS = ['9:00 AM', '10:30 AM', '12:00 PM', '1:30 PM', '3:00 PM', '4:30 PM', '6:00 PM'];
+  const TIME_SLOTS = ['8:00 AM', '8:30 AM', '9:00 AM', '10:30 AM', '12:00 PM', '1:30 PM', '3:00 PM', '4:30 PM', '6:00 PM'];
 
   /* Preselect a service if arriving from services.html?service=ID, and sync with cart */
   const params = new URLSearchParams(window.location.search);
@@ -255,8 +255,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const d = new Date(iso + 'T00:00:00');
     const day = d.getDay(); // 0 = Sun, 6 = Sat
     if (day === 0) return { open: 0, close: 0 };
-    if (day === 6) return { open: 9 * 60, close: 20 * 60 };
-    return { open: 9 * 60, close: 19 * 60 };
+    if (day === 6) return { open: 8 * 60 + 30, close: 19 * 60 };
+    return { open: 8 * 60, close: 19 * 60 };
   }
 
   function renderSlots() {

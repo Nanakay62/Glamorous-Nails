@@ -27,8 +27,8 @@ const GN_DEFAULT_DATA = {
     "location": "Haatso Supermarket Junction",
     "map_url": "https://maps.app.goo.gl/JrgtSx8Z6H68VLgX7",
     "hours": [
-      { "day": "Mon - Fri", "time": "9:00 AM - 7:00 PM" },
-      { "day": "Saturday", "time": "9:00 AM - 8:00 PM" },
+      { "day": "Mon - Fri", "time": "8:00 AM - 7:00 PM" },
+      { "day": "Saturday", "time": "8:30 AM - 7:00 PM" },
       { "day": "Sunday", "time": "Closed" }
     ]
   },
