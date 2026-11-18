@@ -2284,3 +2284,131 @@ img.ph {
   background: var(--oxblood);
   transform: scale(1.2);
 }
+
+/* ==========================================================================
+   Fresha / Treatwell Style Horizontal Service Rows (Booking Step 1)
+   ========================================================================== */
+
+.booking-cat-title {
+  font-family: var(--f-display);
+  font-size: 1.18rem;
+  color: var(--ink);
+  margin: 28px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.booking-row-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.booking-item.booking-row-item {
+  display: grid;
+  grid-template-columns: 68px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.booking-item.booking-row-item:hover {
+  border-color: var(--oxblood);
+}
+.booking-item.booking-row-item:has(input:checked) {
+  background: var(--blush);
+  border-color: var(--oxblood);
+  box-shadow: 0 0 0 1px var(--oxblood);
+}
+.booking-row-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.booking-row-item .ph {
+  width: 68px !important;
+  height: 56px !important;
+  aspect-ratio: auto !important;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  padding: 0 !important;
+  border: 1px solid var(--line);
+  display: block;
+}
+.booking-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.booking-row-info .booking-item-name {
+  font-family: var(--f-display);
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.booking-row-info .service-meta {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+.booking-row-action {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.booking-row-action .service-price {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--oxblood);
+  white-space: nowrap;
+}
+.booking-check-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.booking-check-badge .icon-check {
+  display: none;
+}
+.booking-row-item:hover .booking-check-badge {
+  border-color: var(--oxblood);
+  color: var(--oxblood);
+}
+.booking-row-item:has(input:checked) .booking-check-badge {
+  background: var(--oxblood);
+  border-color: var(--oxblood);
+  color: #FFFFFF;
+}
+.booking-row-item:has(input:checked) .booking-check-badge .icon-plus {
+  display: none;
+}
+.booking-row-item:has(input:checked) .booking-check-badge .icon-check {
+  display: block;
+}
+@media (max-width: 420px) {
+  .booking-item.booking-row-item {
+    grid-template-columns: 56px 1fr auto;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+  .booking-row-item .ph {
+    width: 56px !important;
+    height: 48px !important;
+  }
+  .booking-row-action {
+    gap: 8px;
+  }
+}

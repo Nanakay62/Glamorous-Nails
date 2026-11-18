@@ -85,23 +85,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------------- Step 1: services ---------------- */
   function renderServiceStep() {
-    els.chips.innerHTML = `<button class="chip is-active" data-cat="all">All</button>` +
-      salon.categories.map((c) => `<button class="chip" data-cat="${c.id}">${c.icon || ''} ${c.name}</button>`).join('');
+    els.chips.innerHTML = `<button type="button" class="chip is-active" data-cat="all">All services</button>` +
+      salon.categories.map((c) => `<button type="button" class="chip" data-cat="${c.id}">${c.name}</button>`).join('');
 
     els.serviceList.innerHTML = salon.categories.map((cat) => `
       <div class="booking-cat" data-cat-section="${cat.id}">
-        <h3 style="margin:20px 0 10px;">${cat.icon || ''} ${cat.name}</h3>
-        <div class="booking-item-grid">
+        <h3 class="booking-cat-title">${cat.name}</h3>
+        <div class="booking-row-list">
           ${cat.items.map((item) => `
-            <label class="booking-item" data-item-id="${item.id}">
+            <label class="booking-item booking-row-item" data-item-id="${item.id}">
+              <input type="checkbox" class="booking-row-checkbox" data-id="${item.id}" ${preselects.includes(item.id) ? 'checked' : ''}>
               ${photoHTML(item)}
-              <div class="booking-item-body">
-                <div class="booking-item-row">
-                  <span class="booking-item-name">${item.name}</span>
-                  <input type="checkbox" data-id="${item.id}" ${preselects.includes(item.id) ? 'checked' : ''}>
-                </div>
+              <div class="booking-row-info">
+                <span class="booking-item-name">${item.name}</span>
                 <span class="service-meta">${GNStore.formatDuration(item.durationMinutes)}</span>
+              </div>
+              <div class="booking-row-action">
                 <span class="service-price">${GNStore.formatPrice(item, currency())}</span>
+                <span class="booking-check-badge" aria-hidden="true">
+                  <svg class="icon-plus" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  <svg class="icon-check" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
               </div>
             </label>`).join('')}
         </div>
