@@ -285,9 +285,21 @@
               <option value="Experienced technician applying for a chair">Experienced technician applying for a chair</option>
             </select>
           </div>
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+          <div class="field">
+            <label>Preferred training days (Monday to Saturday)</label>
+            <div class="track-checkbox-grid" style="grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));">
+              <label class="track-checkbox"><input type="checkbox" name="trainingDay" value="Monday"> Monday</label>
+              <label class="track-checkbox"><input type="checkbox" name="trainingDay" value="Tuesday"> Tuesday</label>
+              <label class="track-checkbox"><input type="checkbox" name="trainingDay" value="Wednesday"> Wednesday</label>
+              <label class="track-checkbox"><input type="checkbox" name="trainingDay" value="Thursday"> Thursday</label>
+              <label class="track-checkbox"><input type="checkbox" name="trainingDay" value="Friday"> Friday</label>
+              <label class="track-checkbox"><input type="checkbox" name="trainingDay" value="Saturday"> Saturday</label>
+            </div>
+            <p id="cr-days-error" class="form-note" style="color:var(--danger); display:none; margin-top:6px;"></p>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; align-items:end;">
             <div class="field">
-              <label for="cr-guardian-name">Parent / Guardian / Spouse name (optional)</label>
+              <label for="cr-guardian-name">Guardian / Spouse name (optional)</label>
               <input id="cr-guardian-name" type="text" placeholder="Full name">
             </div>
             <div class="field">
@@ -295,13 +307,13 @@
               <input id="cr-guardian-rel" type="text" placeholder="e.g. Mother, Father, Spouse">
             </div>
             <div class="field">
-              <label for="cr-guardian-phone">Guardian contact number (optional)</label>
+              <label for="cr-guardian-phone">Guardian phone (optional)</label>
               <input id="cr-guardian-phone" type="tel" placeholder="e.g. 024 000 0000">
             </div>
           </div>
           <div class="field">
-            <label for="cr-notes">Preferred training days or questions (optional)</label>
-            <textarea id="cr-notes" placeholder="e.g. Preferred days between Mon to Sat, start month, or questions"></textarea>
+            <label for="cr-notes">Start month or additional questions (optional)</label>
+            <textarea id="cr-notes" placeholder="e.g. Preferred start month or any questions"></textarea>
           </div>
           <button type="submit" class="btn btn-whatsapp btn-block">Get Agreement PDF &amp; Apply</button>
         </form>
@@ -365,7 +377,7 @@
   let lastPdfBlob = null;
   let lastPdfName = "Glamorous-Nails-Training-Application.pdf";
 
-  function buildApplicationPdf({ name, rawPhone, level, tracks, notes, guardianName, guardianRel, guardianPhone }) {
+  function buildApplicationPdf({ name, rawPhone, level, tracks, days, notes, guardianName, guardianRel, guardianPhone }) {
     if (!window.jspdf || !window.jspdf.jsPDF) return null;
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: "pt", format: "a4" });
@@ -375,6 +387,7 @@
     const todayStr = new Date().toLocaleDateString("en-GB", { dateStyle: "long" });
     const courseList = tracks.length ? tracks : ["Pedicure", "Manicure", "Nail Extensions", "Bridal Make-Up", "Eyelash Extensions", "Facial Treatments"];
     const courseSummary = courseList.join(", ");
+    const daysSummary = days && days.length ? days.join(", ") : "Flexible (Monday to Saturday)";
 
     function drawHeader(subtitle) {
       doc.setFillColor(184, 29, 94);
@@ -413,6 +426,7 @@
     let y = 114;
     y = writeHeading("APPRENTICESHIP AGREEMENT LETTER", y);
     y = writePara(`Applicant: ${name}   |   Phone / WhatsApp: ${rawPhone}   |   Date: ${todayStr}`, y, 10, true);
+    y = writePara(`Selected Training Days: ${daysSummary}`, y, 10, true, [184, 29, 94]);
     y += 4;
     y = writePara(
       `I, Madam Tsodzinee Adra, hereby refer to your application and our discussion regarding the apprenticeship program at Glamorous Nails, which includes ${courseSummary}.`,
@@ -448,7 +462,7 @@
     y = 114;
     y = writeHeading("3. RULES AND REGULATIONS", y);
     const rules = [
-      ["Work Hours:", "Reporting time is 8:00 AM; closing time is 7:00 PM or later as required."],
+      ["Work Hours:", `Reporting time is 8:00 AM; closing time is 7:00 PM or later as required. Selected training days: ${daysSummary}.`],
       ["Salon Cleanliness:", "The apprentice is responsible for maintaining cleanliness in the salon at all times."],
       ["Prohibited Behaviours:", "Stealing, quarrelling, misuse of materials, or any other form of misconduct is strictly forbidden."],
       ["Visitor Policy:", "Inviting friends to the salon during working hours is not permitted."],
@@ -483,7 +497,7 @@
       `I, ${name}, hereby agree to the terms and conditions governing the apprenticeship training at Glamorous Nails and promise to abide by them.`,
       y, 11, true
     );
-    y = writePara(`Experience Level: ${level}${notes ? `   |   Notes: ${notes}` : ""}`, y, 9.8, false, [94, 69, 82]);
+    y = writePara(`Experience Level: ${level}   |   Training Days: ${daysSummary}${notes ? `   |   Notes: ${notes}` : ""}`, y, 9.8, false, [94, 69, 82]);
     y += 10;
     y = writePara(`Applicant Name: ${name}`, y, 10.5);
     y = writePara(`Signature (Apprentice): ___________________________     Date: ${todayStr}`, y, 10.5);
@@ -511,6 +525,7 @@
     const rawPhone = document.getElementById("cr-phone").value.trim();
     const phoneErr = document.getElementById("cr-phone-error");
     const trackErr = document.getElementById("cr-track-error");
+    const daysErr = document.getElementById("cr-days-error");
     const cleaned = rawPhone.replace(/[\s\-()]/g, "");
     if (!/^(?:\+?233|0)(?:2[034678]|5[045679])\d{7}$/.test(cleaned)) {
       phoneErr.textContent = "Enter a valid Ghana number (e.g. 024 000 0000 or +233 24 000 0000).";
@@ -529,6 +544,16 @@
     }
     if (trackErr) trackErr.style.display = "none";
 
+    const days = [...document.querySelectorAll('input[name="trainingDay"]:checked')].map((c) => c.value);
+    if (!days.length) {
+      if (daysErr) {
+        daysErr.textContent = "Please check at least one training day (Monday to Saturday).";
+        daysErr.style.display = "block";
+      }
+      return;
+    }
+    if (daysErr) daysErr.style.display = "none";
+
     const level = document.getElementById("cr-level").value;
     const notes = document.getElementById("cr-notes").value.trim();
     const guardianName = document.getElementById("cr-guardian-name")?.value.trim() || "";
@@ -536,7 +561,7 @@
     const guardianPhone = document.getElementById("cr-guardian-phone")?.value.trim() || "";
     const salon = window.GNStore ? window.GNStore.load() : { contact: { whatsapp_dispatch: "233502743916" }, salon_name: "Glamorous Nails" };
 
-    const pdfDoc = buildApplicationPdf({ name, rawPhone, level, tracks, notes, guardianName, guardianRel, guardianPhone });
+    const pdfDoc = buildApplicationPdf({ name, rawPhone, level, tracks, days, notes, guardianName, guardianRel, guardianPhone });
     const safeName = name.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "") || "Applicant";
     lastPdfName = `Glamorous-Nails-Apprenticeship-Agreement-${safeName}.pdf`;
     if (pdfDoc) {
@@ -551,6 +576,7 @@
       `Phone: ${rawPhone}`,
       `Experience: ${level}`,
       `Courses Selected: ${tracks.join(", ")}`,
+      `Training Days: ${days.join(", ")}`,
       guardianName ? `Parent/Guardian/Spouse: ${guardianName}${guardianRel ? ` (${guardianRel})` : ""}` : "",
       notes ? `Notes: ${notes}` : "",
       ``,
