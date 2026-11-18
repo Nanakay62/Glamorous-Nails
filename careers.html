@@ -90,20 +90,20 @@
       <div class="section-head" style="text-align:center; margin-bottom:28px;">
         <span class="careers-eyebrow">The Programme</span>
         <h2>Hands-on studio training in Accra.</h2>
-        <p class="lede" style="margin:8px auto 0;">[PLACEHOLDER: Add your training duration, fees, and intake schedule here.]</p>
+        <p class="lede" style="margin:8px auto 0;">Training runs Monday to Saturday and is flexible around student preference. Certificate provided upon completion.</p>
       </div>
       <div class="careers-stats-grid">
         <div class="careers-stat-card">
-          <strong>Practical</strong>
-          <span>Live studio demonstrations &amp; supervised practice</span>
+          <strong>Mon to Sat</strong>
+          <span>Flexible schedule open to student preference</span>
         </div>
         <div class="careers-stat-card">
-          <strong>6 Core Tracks</strong>
-          <span>Nails, Acrylics, Mani/Pedi, Lashes, Microblading &amp; Makeup</span>
+          <strong>Certificate</strong>
+          <span>Awarded upon completing your practical training</span>
         </div>
         <div class="careers-stat-card">
-          <strong>Career Path</strong>
-          <span>Top trainees considered for studio chair roles</span>
+          <strong>Starter Kit</strong>
+          <span>Detailed and guided directly by the salon</span>
         </div>
       </div>
     </div>
@@ -167,14 +167,14 @@
           <ul class="checklist-items">
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Haatso Supermarket Junction, Accra</span></li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Beginner-friendly: no prior salon experience required</span></li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>[PLACEHOLDER: Specify training days and hours]</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Monday to Saturday training, flexible to student preference</span></li>
           </ul>
         </div>
         <div class="checklist-col">
           <h3>What you gain</h3>
           <ul class="checklist-items">
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Real-world speed, neatness, and client consultation skills</span></li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>[PLACEHOLDER: Certificate / starter kit details]</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Completion certificate provided + starter kit detailed by the salon</span></li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Opportunity to join our Haatso team after trade assessment</span></li>
           </ul>
         </div>
@@ -252,11 +252,20 @@
             </select>
           </div>
           <div class="field">
-            <label for="cr-notes">Anything else you would like us to know? (optional)</label>
-            <textarea id="cr-notes" placeholder="Preferred start month, availability, or questions"></textarea>
+            <label for="cr-notes">Preferred training days or questions (optional)</label>
+            <textarea id="cr-notes" placeholder="e.g. Preferred days between Mon to Sat, start month, or questions"></textarea>
           </div>
-          <button type="submit" class="btn btn-whatsapp btn-block">Apply via WhatsApp</button>
+          <button type="submit" class="btn btn-whatsapp btn-block">Generate PDF &amp; Apply on WhatsApp</button>
         </form>
+        <div id="careersPdfResult" style="display:none; margin-top:20px; padding:18px; border-radius:var(--radius-md); background:var(--blush); border:1px solid var(--oxblood);">
+          <strong style="display:block; margin-bottom:6px; color:var(--ink);">Application PDF downloaded!</strong>
+          <p class="form-note" style="margin-bottom:14px; color:var(--ink-soft);">Attach the downloaded PDF file in the WhatsApp chat that opened, or use the buttons below.</p>
+          <div style="display:flex; flex-wrap:wrap; gap:10px;">
+            <button type="button" id="downloadPdfAgainBtn" class="btn btn-secondary btn-sm">Download PDF again</button>
+            <a id="openCareersWaBtn" href="#" target="_blank" rel="noopener" class="btn btn-whatsapp btn-sm">Open WhatsApp</a>
+            <button type="button" id="sharePdfBtn" class="btn btn-primary btn-sm" style="display:none;">Share PDF to WhatsApp</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -301,9 +310,59 @@
   <a class="btn btn-whatsapp" href="https://wa.me/233502743916" target="_blank" rel="noopener">WhatsApp</a>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 <script type="module" src="js/main.js"></script>
 <script type="module">
   import "./js/data.js";
+
+  let lastPdfBlob = null;
+  let lastPdfName = "Glamorous-Nails-Training-Application.pdf";
+
+  function buildApplicationPdf({ name, rawPhone, level, tracks, notes }) {
+    if (!window.jspdf || !window.jspdf.jsPDF) return null;
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: "pt", format: "a4" });
+    const pageW = doc.internal.pageSize.getWidth();
+
+    // Header band
+    doc.setFillColor(184, 29, 94);
+    doc.rect(0, 0, pageW, 88, "F");
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(20);
+    doc.text("GLAMOROUS NAILS", 48, 42);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    doc.text("Training & Careers Application Form | Haatso Supermarket Junction, Accra", 48, 64);
+
+    // Body
+    doc.setTextColor(36, 16, 27);
+    let y = 130;
+    const addRow = (label, value) => {
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(10);
+      doc.setTextColor(184, 29, 94);
+      doc.text(label.toUpperCase(), 48, y);
+      y += 18;
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(12);
+      doc.setTextColor(36, 16, 27);
+      const lines = doc.splitTextToSize(value || "N/A", pageW - 96);
+      doc.text(lines, 48, y);
+      y += lines.length * 16 + 16;
+    };
+
+    addRow("Applicant Name", name);
+    addRow("Phone / WhatsApp", rawPhone);
+    addRow("Experience Level", level);
+    addRow("Selected Training Courses", tracks.length ? tracks.join(", ") : "General studio training / career");
+    addRow("Preferred Days / Notes", notes || "Flexible (Monday to Saturday)");
+    addRow("Programme Notes", "Training runs Monday to Saturday (flexible to student preference). Certificate provided upon completion. Starter kit detailed by the salon.");
+    addRow("Date Submitted", new Date().toLocaleDateString("en-GB", { dateStyle: "long" }));
+
+    return doc;
+  }
+
   document.getElementById("careersForm")?.addEventListener("submit", (e) => {
     e.preventDefault();
     const name = document.getElementById("cr-name").value.trim();
@@ -321,6 +380,15 @@
     const level = document.getElementById("cr-level").value;
     const notes = document.getElementById("cr-notes").value.trim();
     const salon = window.GNStore ? window.GNStore.load() : { contact: { whatsapp_dispatch: "233502743916" }, salon_name: "Glamorous Nails" };
+
+    const pdfDoc = buildApplicationPdf({ name, rawPhone, level, tracks, notes });
+    const safeName = name.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "") || "Applicant";
+    lastPdfName = `Glamorous-Nails-Application-${safeName}.pdf`;
+    if (pdfDoc) {
+      lastPdfBlob = pdfDoc.output("blob");
+      pdfDoc.save(lastPdfName);
+    }
+
     const msg = [
       `Training / Career Application | ${salon.salon_name}`,
       ``,
@@ -328,9 +396,37 @@
       `Phone: ${rawPhone}`,
       `Experience: ${level}`,
       `Interested in: ${tracks.length ? tracks.join(", ") : "General studio training / career"}`,
-      notes ? `Notes: ${notes}` : ""
+      notes ? `Notes: ${notes}` : "",
+      ``,
+      `(My PDF application form "${lastPdfName}" has been downloaded and is attached.)`
     ].filter(Boolean).join("\n");
-    window.open(`https://wa.me/${salon.contact.whatsapp_dispatch}?text=${encodeURIComponent(msg)}`, "_blank");
+
+    const waUrl = `https://wa.me/${salon.contact.whatsapp_dispatch}?text=${encodeURIComponent(msg)}`;
+    const resultBox = document.getElementById("careersPdfResult");
+    const openWaBtn = document.getElementById("openCareersWaBtn");
+    const shareBtn = document.getElementById("sharePdfBtn");
+    if (resultBox && openWaBtn) {
+      openWaBtn.href = waUrl;
+      resultBox.style.display = "block";
+      if (lastPdfBlob && navigator.canShare && navigator.share) {
+        const file = new File([lastPdfBlob], lastPdfName, { type: "application/pdf" });
+        if (navigator.canShare({ files: [file] })) {
+          shareBtn.style.display = "inline-flex";
+          shareBtn.onclick = () => navigator.share({ files: [file], title: "Training Application PDF", text: msg }).catch(() => {});
+        }
+      }
+    }
+    window.open(waUrl, "_blank");
+  });
+
+  document.getElementById("downloadPdfAgainBtn")?.addEventListener("click", () => {
+    if (!lastPdfBlob) return;
+    const url = URL.createObjectURL(lastPdfBlob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = lastPdfName;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   });
 </script>
 </body>

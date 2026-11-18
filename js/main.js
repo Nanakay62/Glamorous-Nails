@@ -182,17 +182,64 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const reviewsGrid = document.getElementById('homeReviewsGrid');
+  function renderStars(count) {
+    const n = Math.max(1, Math.min(5, Number(count) || 5));
+    const filled = `<svg viewBox="0 0 24 24" width="16" height="16" fill="#B81D5E" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+    const empty = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#B81D5E" stroke-width="1.8" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+    return `<div style="display:flex; gap:3px;" aria-label="${n} out of 5 stars">${filled.repeat(n)}${empty.repeat(5 - n)}</div>`;
+  }
+  function renderReviewsList(reviews) {
+    if (!reviewsGrid) return;
+    reviewsGrid.innerHTML = (reviews || []).slice(0, 6).map((r) => `
+      <article class="review-card">
+        ${renderStars(r.rating)}
+        <p class="review-quote">"${r.quote || ''}"</p>
+        <div>
+          <div class="review-author">${r.author || 'Client'}</div>
+          ${r.service ? `<div class="review-service">${r.service}</div>` : ''}
+        </div>
+      </article>
+    `).join('');
+  }
   if (reviewsGrid && GNStore.getReviews) {
-    GNStore.getReviews().then((reviews) => {
-      reviewsGrid.innerHTML = (reviews || []).slice(0, 3).map((r) => `
-        <article class="review-card">
-          <p class="review-quote">"${r.quote || ''}"</p>
-          <div>
-            <div class="review-author">${r.author || '[CLIENT NAME]'}</div>
-            ${r.service ? `<div class="review-service">${r.service}</div>` : ''}
-          </div>
-        </article>
-      `).join('');
+    GNStore.getReviews().then(renderReviewsList);
+  }
+
+  const toggleReviewBtn = document.getElementById('toggleReviewFormBtn');
+  const reviewFormWrap = document.getElementById('reviewFormWrap');
+  const clientReviewForm = document.getElementById('clientReviewForm');
+  const reviewFormStatus = document.getElementById('reviewFormStatus');
+  if (toggleReviewBtn && reviewFormWrap) {
+    toggleReviewBtn.addEventListener('click', () => {
+      const open = reviewFormWrap.style.display === 'none';
+      reviewFormWrap.style.display = open ? 'block' : 'none';
+    });
+  }
+  if (clientReviewForm) {
+    clientReviewForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const author = document.getElementById('rv-name').value.trim();
+      const service = document.getElementById('rv-service').value.trim();
+      const rating = Number(document.getElementById('rv-rating').value) || 5;
+      const quote = document.getElementById('rv-quote').value.trim();
+      if (!author || !quote) return;
+      const entry = { author, service: service || 'Studio Client', rating, quote, created_at: new Date().toISOString() };
+      try {
+        await GNStore.addReview(entry);
+        const latest = await GNStore.getReviews();
+        renderReviewsList(latest);
+        if (reviewFormStatus) {
+          reviewFormStatus.textContent = 'Thank you! Your review has been published.';
+          reviewFormStatus.style.color = 'var(--success)';
+        }
+        clientReviewForm.reset();
+      } catch (err) {
+        const waUrl = `https://wa.me/${salon.contact.whatsapp_dispatch}?text=${encodeURIComponent(`Client Review from ${author} (${rating}/5 stars, ${entry.service}):\n"${quote}"`)}`;
+        if (reviewFormStatus) {
+          reviewFormStatus.innerHTML = `Direct saving requires Firestore rules deployment. <a href="${waUrl}" target="_blank" rel="noopener" style="color:var(--oxblood); font-weight:600;">Send review via WhatsApp</a> instead.`;
+          reviewFormStatus.style.color = 'var(--ink)';
+        }
+      }
     });
   }
 

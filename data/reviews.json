@@ -1,23 +1,23 @@
 [
   {
     "id": "r1",
-    "author": "[CLIENT NAME 1]",
-    "service": "[SERVICE NAME]",
+    "author": "Fairy ., Haatso",
+    "service": "Nail Studio Client",
     "rating": 5,
-    "quote": "[PLACEHOLDER: Paste a real client review here or add reviews in Admin -> Reviews.]"
+    "quote": "The best nail studio I've visited in Accra. Tsodzinee is incredibly talented and pays attention to every detail. My nails always look neat, elegant, and last much longer than expected. The salon is clean, comfortable, and the customer service is excellent."
   },
   {
     "id": "r2",
-    "author": "[CLIENT NAME 2]",
-    "service": "[SERVICE NAME]",
-    "rating": 5,
-    "quote": "[PLACEHOLDER: Paste a real client review here or add reviews in Admin -> Reviews.]"
+    "author": "Sandra , Haatso",
+    "service": "Nail Studio Client",
+    "rating": 4,
+    "quote": "Great experience every time. I appreciate how much care is taken with hygiene and nail health. The consultation before each appointment helps ensure I get exactly what I want. The only reason I'm giving four stars instead of five is that appointments can fill up quickly, so it's best to book ahead."
   },
   {
     "id": "r3",
-    "author": "[CLIENT NAME 3]",
-    "service": "[SERVICE NAME]",
+    "author": "Priscilla D., Tesano",
+    "service": "Loyal Client (1+ Year)",
     "rating": 5,
-    "quote": "[PLACEHOLDER: Paste a real client review here or add reviews in Admin -> Reviews.]"
+    "quote": "I've been a loyal client for over a year and have no plans of changing salons. Tsodzinee combines creativity with professionalism, and her work speaks for itself. I've received countless compliments on my nails, and I always leave feeling confident and well taken care of."
   }
 ]

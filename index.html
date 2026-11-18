@@ -8,13 +8,13 @@
 <meta property="og:title" content="Glamorous Nails | Nail Salon Haatso Accra">
 <meta property="og:description" content="Your nails, done properly, at Haatso Junction. Book acrylics, gel, lashes, pedicure and beauty services on WhatsApp.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="./assets/images/long_acrylic.jpeg">
+<meta property="og:image" content="./assets/images/hero_nails.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Glamorous Nails | Nail Salon Haatso Accra">
 <meta name="twitter:description" content="Acrylics, gel polish, lashes, microblading, facials, pedicure and piercings at Haatso Supermarket Junction, Accra.">
-<meta name="twitter:image" content="./assets/images/long_acrylic.jpeg">
+<meta name="twitter:image" content="./assets/images/hero_nails.jpg">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23B81D5E'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='15' fill='%23FFF9F6'%3EGN%3C/text%3E%3C/svg%3E">
-<link rel="preload" as="image" href="./assets/images/long_acrylic.jpeg">
+<link rel="preload" as="image" href="./assets/images/hero_nails.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -143,7 +143,7 @@
       </div>
     </div>
     <div class="hero-trieu-right">
-      <img src="./assets/images/long_acrylic.jpeg" alt="Long acrylic nail set done at Glamorous Nails Haatso" width="800" height="900">
+      <img src="./assets/images/hero_nails.jpg" alt="Long almond acrylic nail set with berry French tips done at Glamorous Nails Haatso" width="1200" height="675">
     </div>
   </section>
 
@@ -225,8 +225,38 @@
   <!-- WHAT CLIENTS SAY -->
   <section class="reviews-band">
     <div class="container">
-      <div class="section-head" style="text-align:left; align-items:flex-start; margin-bottom:24px;">
-        <h2>What clients say</h2>
+      <div class="section-head" style="text-align:left; align-items:flex-start; margin-bottom:24px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px;">
+        <h2 style="margin:0;">What clients say</h2>
+        <button type="button" class="btn btn-secondary btn-sm" id="toggleReviewFormBtn">Leave a review</button>
+      </div>
+      <div id="reviewFormWrap" class="booking-panel" style="display:none; margin-bottom:24px;">
+        <h3 style="margin:0 0 12px;">Share your experience</h3>
+        <form id="clientReviewForm">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+            <div class="field">
+              <label for="rv-name">Your name &amp; area</label>
+              <input id="rv-name" type="text" placeholder="e.g. Ama B., Haatso" required>
+            </div>
+            <div class="field">
+              <label for="rv-service">Service</label>
+              <input id="rv-service" type="text" placeholder="e.g. Long Acrylic, Pedicure">
+            </div>
+            <div class="field">
+              <label for="rv-rating">Rating</label>
+              <select id="rv-rating">
+                <option value="5">5 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="3">3 Stars</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="rv-quote">Your review</label>
+            <textarea id="rv-quote" placeholder="Tell us about your visit..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-sm">Submit review</button>
+          <p id="reviewFormStatus" class="form-note" style="margin-top:10px;"></p>
+        </form>
       </div>
       <div class="reviews-grid" id="homeReviewsGrid">
         <!-- Populated from Firestore `reviews` or data/reviews.json -->
