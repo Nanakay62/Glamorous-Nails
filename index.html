@@ -13,7 +13,7 @@
 <meta name="twitter:title" content="Glamorous Nails — Nail Salon Haatso Accra">
 <meta name="twitter:description" content="Acrylics, gel polish, lashes, microblading, facials, pedicure and piercings at Haatso Supermarket Junction, Accra.">
 <meta name="twitter:image" content="./assets/images/long_acrylic.jpeg">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%237A2E3B'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='15' fill='%23FBF6F1'%3EGN%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23B81D5E'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='15' fill='%23FFF9F6'%3EGN%3C/text%3E%3C/svg%3E">
 <link rel="preload" as="image" href="./assets/images/long_acrylic.jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,7 +72,7 @@
 
 <div class="announcement-bar">
   <div class="container announcement-bar-inner">
-    <span>Open today: <strong>Mon–Fri 9am–7pm · Sat 9am–8pm · Sun 12pm–6pm</strong></span>
+    <span>Call / WhatsApp: <a href="tel:+233502743916" style="color:#F5DCE5; font-weight:700; text-decoration:none;">050 274 3916</a></span>
     <span class="announcement-sep" aria-hidden="true">|</span>
     <span>Haatso Supermarket Junction, Accra</span>
     <span class="announcement-sep" aria-hidden="true">|</span>
@@ -80,26 +80,28 @@
   </div>
 </div>
 
-<header class="site-nav">
-  <div class="container nav-inner">
-    <nav class="nav-links left" aria-label="Primary">
-      <a href="index.html" data-nav="home">Home</a>
-      <a href="services.html" data-nav="services">Services</a>
-    </nav>
-    <a class="nav-logo" href="index.html">Glamorous Nails</a>
-    <div style="display:flex; align-items:center; gap: 16px; margin-left: auto;">
-      <nav class="nav-links right" aria-label="Secondary">
-        <a href="about.html" data-nav="about">About</a>
-        <a href="contact.html" data-nav="contact">Contact</a>
-        <a class="btn btn-primary btn-sm nav-book-btn" href="booking.html">Book now</a>
-      </nav>
-      <div class="nav-actions" style="display: flex; align-items: center; gap: 4px;">
+<header class="site-nav site-nav--editorial">
+  <div class="container">
+    <div class="nav-top-row">
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      <a class="nav-wordmark" href="index.html">
+        <span class="nav-wordmark-main">Glamorous Nails</span>
+        <span class="nav-wordmark-sub">Haatso · Accra</span>
+      </a>
+      <div style="display:flex; align-items:center; gap:8px;">
         <button class="nav-icon-btn" id="navSearchBtn" aria-label="Search services">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2a8 8 0 105.293 13.707l5 5a1 1 0 001.414-1.414l-5-5A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg>
         </button>
+        <a class="btn btn-primary btn-sm nav-book-btn" href="booking.html">Book</a>
       </div>
-      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
+    <nav class="nav-bottom-row" aria-label="Primary">
+      <a href="index.html" class="is-active" data-nav="home">Home</a>
+      <a href="services.html" data-nav="services">Services</a>
+      <a href="booking.html" data-nav="booking">Book Now</a>
+      <a href="about.html" data-nav="about">About</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+    </nav>
   </div>
 </header>
 <div class="mobile-menu">
@@ -111,64 +113,93 @@
 </div>
 
 <main id="main">
-  <!-- HERO -->
-  <section class="hero-split">
-    <div class="container hero-split-grid">
-      <div>
-        <h1>Your nails, done properly, at Haatso Junction.</h1>
-        <p class="hero-intro">
-          Clean prep, durable acrylics, gel polish, pedicures, lashes, brows, facials, makeup and piercings at Haatso Supermarket Junction, Accra. Book your slot online in under a minute and pay at the studio when you finish.
-        </p>
-        <div class="hero-cta-row">
-          <a class="btn btn-primary" href="booking.html">Book an appointment</a>
-          <a class="btn btn-whatsapp" href="https://wa.me/233502743916" target="_blank" rel="noopener">Chat on WhatsApp</a>
+  <!-- 60/40 SPLIT HERO -->
+  <section class="hero-trieu">
+    <div class="hero-trieu-left">
+      <span class="hero-trieu-eyebrow">Haatso Supermarket Junction · Accra</span>
+      <h1>Your nails, <em>done properly</em>, at Haatso Junction.</h1>
+      <p class="hero-intro">
+        Clean prep, durable acrylics, gel polish, pedicures, lashes, brows, facials, makeup and piercings. Book your slot online in four quick steps and pay in person when you finish.
+      </p>
+      <div class="hero-cta-row">
+        <a class="btn btn-primary" href="booking.html">Book an appointment</a>
+        <a class="btn btn-whatsapp" href="https://wa.me/233502743916" target="_blank" rel="noopener">Chat on WhatsApp</a>
+      </div>
+      <div class="hero-metrics">
+        <div class="hero-metric">
+          <strong>Sterilised Tools</strong>
+          <span>Hygiene-first studio care</span>
         </div>
-        <div class="trust-row">
-          <span class="trust-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Sterilised tools
-          </span>
-          <span class="trust-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-            Pay in person (Cash / MoMo)
-          </span>
-          <span class="trust-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Haatso Supermarket Junction
-          </span>
+        <div class="hero-metric">
+          <strong>Cash &amp; MoMo</strong>
+          <span>Pay in person after service</span>
         </div>
       </div>
+    </div>
+    <div class="hero-trieu-right">
+      <img src="./assets/images/long_acrylic.jpeg" alt="Long acrylic nail set done at Glamorous Nails Haatso" width="800" height="900">
+    </div>
+  </section>
 
-      <div class="hero-photo-grid" aria-label="Nail work at Glamorous Nails">
-        <div class="hero-photo-main">
-          <img src="./assets/images/long_acrylic.jpeg" alt="Long acrylic nail set done at Glamorous Nails Haatso" width="600" height="800">
-        </div>
-        <div class="hero-photo-sub">
-          <img src="./assets/images/medium_nails.jpeg" alt="Medium acrylic nails with clean finish" width="400" height="300">
-        </div>
-        <div class="hero-photo-sub">
-          <img src="./assets/images/short_nails.jpeg" alt="Short natural-length nail set" width="400" height="300">
-        </div>
+  <!-- SERVICE MARQUEE STRIP -->
+  <div class="marquee-strip" aria-label="Studio services">
+    <div class="container marquee-strip-inner">
+      <span>Acrylics</span><span class="marquee-dot" aria-hidden="true">·</span>
+      <span>Gel Polish</span><span class="marquee-dot" aria-hidden="true">·</span>
+      <span>Manicure &amp; Pedicure</span><span class="marquee-dot" aria-hidden="true">·</span>
+      <span>Lashes &amp; Brows</span><span class="marquee-dot" aria-hidden="true">·</span>
+      <span>Microblading</span><span class="marquee-dot" aria-hidden="true">·</span>
+      <span>Facials</span><span class="marquee-dot" aria-hidden="true">·</span>
+      <span>Makeup</span><span class="marquee-dot" aria-hidden="true">·</span>
+      <span>Piercings</span>
+    </div>
+  </div>
+
+  <!-- 3-COLUMN PHOTO QUICK-LINK GRID -->
+  <section class="section">
+    <div class="container">
+      <div class="quick-grid">
+        <a class="quick-card" href="services.html">
+          <img src="./assets/images/medium_nails.jpeg" alt="Browse nail and beauty services" width="400" height="300" loading="lazy">
+          <div class="quick-card-overlay">
+            <span class="quick-card-title">Services</span>
+            <span class="btn btn-primary btn-sm">View</span>
+          </div>
+        </a>
+        <a class="quick-card" href="booking.html">
+          <img src="./assets/images/short_nails.jpeg" alt="Book an appointment online" width="400" height="300" loading="lazy">
+          <div class="quick-card-overlay">
+            <span class="quick-card-title">Book Now</span>
+            <span class="btn btn-primary btn-sm">Book</span>
+          </div>
+        </a>
+        <a class="quick-card" href="contact.html">
+          <img src="./assets/images/pedicure.jpg" alt="Visit Glamorous Nails at Haatso Junction" width="400" height="300" loading="lazy">
+          <div class="quick-card-overlay">
+            <span class="quick-card-title">Contact Us</span>
+            <span class="btn btn-primary btn-sm">Find Us</span>
+          </div>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- POPULAR SERVICES -->
-  <section class="section" style="padding-top: 24px;">
+  <!-- FROSTED-GLASS POPULAR SERVICES BAND -->
+  <section class="menu-band">
     <div class="container">
-      <div class="section-head" style="text-align:left; align-items:flex-start; margin-bottom:24px;">
+      <div class="section-head" style="text-align:center; margin-bottom:28px;">
         <h2>Popular services</h2>
-        <p class="lede" style="margin:6px 0 0;">Pick a service to see durations and book your slot.</p>
+        <p class="lede" style="margin:6px auto 0;">Pick a service to see durations and book your slot.</p>
       </div>
       <div class="popular-grid" id="homePopularServices"></div>
-      <div style="margin-top:24px;">
-        <a class="btn btn-secondary" href="services.html">See all services &amp; prices</a>
+      <div style="margin-top:28px; text-align:center;">
+        <a class="btn btn-primary" href="services.html">View the full menu &amp; prices</a>
       </div>
     </div>
   </section>
 
   <!-- RECENT WORK -->
-  <section class="section" style="padding-top: 16px;">
+  <section class="section">
     <div class="container">
       <div class="section-head" style="text-align:left; align-items:flex-start; margin-bottom:24px;">
         <h2>Recent work</h2>
@@ -197,26 +228,8 @@
     </div>
   </section>
 
-  <!-- OWNER SECTION -->
-  <section class="section">
-    <div class="container owner-grid">
-      <div>
-        <img class="owner-portrait" src="./assets/images/CEO.jpeg" alt="[OWNER NAME], founder of Glamorous Nails" width="600" height="450" loading="lazy">
-      </div>
-      <div>
-        <h2>Hi, I'm [OWNER NAME]</h2>
-        <p style="color:var(--ink-soft); font-size:1.02rem; line-height:1.65;">
-          [PLACEHOLDER: Write 3–4 sentences in your own voice about starting Glamorous Nails at Haatso Supermarket Junction, how you care for nail health and hygiene, and what clients can expect when they sit in your chair.]
-        </p>
-        <div style="margin-top:20px;">
-          <a class="btn btn-secondary" href="about.html">About the studio</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- FIND US -->
-  <section class="section" style="padding-top: 16px;">
+  <section class="section">
     <div class="container find-us-grid">
       <div>
         <h2>Find us at Haatso Junction</h2>
@@ -248,12 +261,12 @@
   </section>
 </main>
 
-<footer class="site-footer">
+<footer class="site-footer site-footer--dark">
   <div class="container">
     <div class="footer-grid">
       <div>
         <div class="nav-logo" style="margin-bottom:8px;">Glamorous Nails</div>
-        <p class="form-note">Haatso Supermarket Junction, Accra · Cash or Mobile Money in person.</p>
+        <p class="form-note" style="color:rgba(255,255,255,0.75);">Haatso Supermarket Junction, Accra · Cash or Mobile Money in person.</p>
       </div>
       <div>
         <strong>Explore</strong>
