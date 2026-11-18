@@ -151,6 +151,30 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Footer year ---------- */
   document.querySelectorAll('[data-gn-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
 
+  /* ---------- Official WhatsApp & Social Logos ---------- */
+  const WA_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm5.79 14.11c-.24.68-1.41 1.3-1.95 1.38-.51.08-1.15.11-1.85-.11-.43-.14-.98-.32-1.69-.63-2.97-1.28-4.91-4.27-5.06-4.47-.15-.2-1.21-1.61-1.21-3.07 0-1.46.76-2.18 1.03-2.48.27-.3.59-.38.79-.38h.57c.18 0 .43-.07.67.51.25.6.85 2.08.92 2.23.08.15.13.33.02.53-.1.2-.15.33-.3.5-.15.17-.31.38-.45.51-.15.15-.31.31-.13.61.18.3.8 1.32 1.72 2.14 1.18 1.05 2.18 1.38 2.48 1.53.3.15.48.13.66-.08.18-.2.76-.88.96-1.18.2-.3.4-.25.68-.15.28.1 1.77.83 2.07.98.3.15.5.23.58.35.07.13.07.74-.17 1.42z"/></svg>';
+  const IG_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6zm9.65 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>';
+  const TT_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.82c-1-.9-1.6-2.17-1.6-3.57h-3.1v13.7a3.1 3.1 0 1 1-2.19-2.96V9.94a6.2 6.2 0 1 0 5.29 6.15V9.7a8.06 8.06 0 0 0 4.6 1.44V8.03a4.85 4.85 0 0 1-2.99-2.2z"/></svg>';
+
+  document.querySelectorAll('.btn-whatsapp').forEach((btn) => {
+    if (!btn.querySelector('svg')) btn.insertAdjacentHTML('afterbegin', WA_SVG);
+  });
+  document.querySelectorAll('.site-footer .footer-links a').forEach((a) => {
+    if (a.querySelector('svg')) return;
+    const href = (a.getAttribute('href') || '').toLowerCase();
+    const label = a.textContent.trim().toLowerCase();
+    if (href.includes('instagram') || label.includes('instagram')) {
+      a.classList.add('footer-social-link');
+      a.insertAdjacentHTML('afterbegin', IG_SVG);
+    } else if (href.includes('tiktok') || label.includes('tiktok')) {
+      a.classList.add('footer-social-link');
+      a.insertAdjacentHTML('afterbegin', TT_SVG);
+    } else if (href.includes('wa.me') || label.includes('whatsapp')) {
+      a.classList.add('footer-social-link');
+      a.insertAdjacentHTML('afterbegin', WA_SVG);
+    }
+  });
+
   /* ---------- Home Page: Popular Services & Reviews ---------- */
   const popularGrid = document.getElementById('homePopularServices');
   function renderPopularServices(data) {

@@ -2088,3 +2088,68 @@ img.ph {
   height: 18px;
   accent-color: var(--oxblood);
 }
+
+/* ==========================================================================
+   Infinite Right-to-Left Marquee & Social / WhatsApp Icon Alignment
+   ========================================================================== */
+
+.marquee-strip {
+  padding: 14px 0 !important;
+  overflow: hidden;
+  background: var(--white);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: gnMarquee 26s linear infinite;
+}
+.marquee-strip:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee-group {
+  display: flex;
+  align-items: center;
+  gap: 52px;
+  padding-right: 52px;
+  font-family: 'Georgia', var(--f-display), serif;
+  font-style: italic;
+  font-size: 1.02rem;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+@keyframes gnMarquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; width: 100%; justify-content: center; flex-wrap: wrap; }
+  .marquee-group--dup { display: none; }
+}
+
+/* Tight spacing right after the marquee strip */
+.section--tight-top {
+  padding-top: 24px !important;
+}
+
+/* Official WhatsApp & Footer Social Icons */
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-whatsapp svg,
+.footer-social-link svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+.footer-social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
