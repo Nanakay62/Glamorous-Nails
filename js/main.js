@@ -180,27 +180,57 @@ document.addEventListener('DOMContentLoaded', () => {
     if (slides.length > 1) startAuto();
   }
 
-  /* ---------- Gallery lightbox ---------- */
-  const lightbox = document.querySelector('.lightbox');
-  if (lightbox) {
-    const lbImg = lightbox.querySelector('img, .ph');
-    document.querySelectorAll('.gallery-item').forEach((item) => {
-      item.addEventListener('click', () => {
-        const img = item.querySelector('img');
-        const label = img?.alt || item.querySelector('.ph')?.getAttribute('data-label') || 'Gallery image';
-        if (lbImg?.tagName === 'IMG' && img) {
-          lbImg.src = img.src;
-          lbImg.alt = label;
-        } else if (lbImg) {
-          lbImg.setAttribute('data-label', label);
-        }
-        lightbox.classList.add('is-open');
-      });
-    });
-    lightbox.querySelector('.lightbox-close')?.addEventListener('click', () => lightbox.classList.remove('is-open'));
-    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.classList.remove('is-open'); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lightbox.classList.remove('is-open'); });
+  /* ---------- Tap-to-Zoom Photo Lightbox (Recent Work & Services) ---------- */
+  const lbHtml = `
+    <div class="gn-lightbox" id="gnLightbox" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="gn-lightbox-card">
+        <button type="button" class="gn-lightbox-close" id="gnLightboxClose" aria-label="Close image">&times;</button>
+        <img class="gn-lightbox-img" id="gnLightboxImg" src="" alt="">
+        <div class="gn-lightbox-foot">
+          <p class="gn-lightbox-caption" id="gnLightboxCaption"></p>
+          <a class="btn btn-primary btn-sm" id="gnLightboxBookBtn" href="booking.html">Book this style</a>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', lbHtml);
+
+  const gnLb = document.getElementById('gnLightbox');
+  const gnLbImg = document.getElementById('gnLightboxImg');
+  const gnLbCap = document.getElementById('gnLightboxCaption');
+  const gnLbBook = document.getElementById('gnLightboxBookBtn');
+
+  function closeGnLightbox() {
+    if (!gnLb) return;
+    gnLb.classList.remove('is-open');
+    gnLb.setAttribute('aria-hidden', 'true');
   }
+
+  document.body.addEventListener('click', (e) => {
+    const img = e.target.closest('.recent-work-grid img, .service-card img.ph');
+    if (!img || !gnLb) return;
+    const card = img.closest('.service-card');
+    const titleEl = card ? card.querySelector('h3') : null;
+    const serviceBtn = card ? card.querySelector('[data-id]') : null;
+    const bookLink = card ? card.querySelector('a[href*="booking.html"]') : null;
+
+    gnLbImg.src = img.src;
+    gnLbImg.alt = img.alt || 'Glamorous Nails studio work';
+    gnLbCap.textContent = (titleEl ? titleEl.textContent.trim() : img.alt) || 'Studio Work';
+    if (serviceBtn) {
+      gnLbBook.href = `booking.html?service=${encodeURIComponent(serviceBtn.getAttribute('data-id'))}`;
+    } else if (bookLink) {
+      gnLbBook.href = bookLink.getAttribute('href');
+    } else {
+      gnLbBook.href = 'booking.html';
+    }
+    gnLb.classList.add('is-open');
+    gnLb.setAttribute('aria-hidden', 'false');
+  });
+
+  document.getElementById('gnLightboxClose')?.addEventListener('click', closeGnLightbox);
+  gnLb?.addEventListener('click', (e) => { if (e.target === gnLb) closeGnLightbox(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeGnLightbox(); });
 
   /* ---------- Footer year ---------- */
   document.querySelectorAll('[data-gn-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });

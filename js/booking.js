@@ -18,7 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     calendarMonthOffset: 0,
     name: '',
     phone: '',
-    notes: ''
+    notes: '',
+    hasInspo: false,
+    inspoPreviewUrl: ''
   };
 
   const TIME_SLOTS = ['8:00 AM', '8:30 AM', '9:00 AM', '10:30 AM', '12:00 PM', '1:30 PM', '3:00 PM', '4:30 PM', '6:00 PM'];
@@ -309,7 +311,8 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
       <div class="review-block">
         <strong style="display:block; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--oxblood); margin-bottom:4px;">Your details</strong>
-        <p>${state.name}<br>${state.phone}${state.notes ? `<br><span class="form-note">Note: ${state.notes}</span>` : ''}</p>
+        <p>${state.name}<br>${state.phone}${state.notes ? `<br><span class="form-note">Note: ${state.notes}</span>` : ''}${state.hasInspo ? `<br><span class="form-note" style="color:var(--oxblood); font-weight:600;">Inspiration photo: ready to attach in WhatsApp</span>` : ''}</p>
+        ${state.hasInspo && state.inspoPreviewUrl ? `<img src="${state.inspoPreviewUrl}" alt="Inspiration photo preview" style="max-width:120px; border-radius:8px; margin-top:8px; border:1px solid var(--line);">` : ''}
       </div>
       <div class="review-block">
         <strong style="display:block; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--oxblood); margin-bottom:4px;">Estimated total</strong>
@@ -346,6 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ``,
       `Estimated total: ${currency()}${total}`,
       state.notes ? `Note: ${state.notes}` : '',
+      state.hasInspo ? `Inspiration photo: I will send my reference photo in this WhatsApp chat.` : '',
       ``,
       `Payment will be made in person at the studio.`
     ].filter(Boolean).join('\n');
@@ -409,6 +413,29 @@ document.addEventListener('DOMContentLoaded', () => {
     return /^(?:\+?233|0)(?:2[034678]|5[045679])\d{7}$/.test(cleaned);
   }
 
+  const inspoCheck = document.getElementById('bk-has-inspo');
+  const inspoWrap = document.getElementById('bk-inspo-wrap');
+  const inspoFile = document.getElementById('bk-inspo-file');
+  const inspoPreview = document.getElementById('bk-inspo-preview');
+
+  inspoCheck?.addEventListener('change', () => {
+    state.hasInspo = inspoCheck.checked;
+    if (inspoWrap) inspoWrap.style.display = inspoCheck.checked ? 'block' : 'none';
+  });
+
+  inspoFile?.addEventListener('change', () => {
+    const file = inspoFile.files[0];
+    if (!file) {
+      state.inspoPreviewUrl = '';
+      if (inspoPreview) inspoPreview.innerHTML = '';
+      return;
+    }
+    state.inspoPreviewUrl = URL.createObjectURL(file);
+    if (inspoPreview) {
+      inspoPreview.innerHTML = `<img src="${state.inspoPreviewUrl}" alt="Selected inspiration photo" style="max-width:120px; border-radius:8px; border:1px solid var(--line);">`;
+    }
+  });
+
   els.form3.addEventListener('submit', (e) => {
     e.preventDefault();
     const phoneInput = document.getElementById('bk-phone');
@@ -426,6 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
     state.name = document.getElementById('bk-name').value.trim();
     state.phone = rawPhone;
     state.notes = document.getElementById('bk-notes').value.trim();
+    state.hasInspo = Boolean(inspoCheck?.checked);
     renderReview();
     goToStep(4);
   });
