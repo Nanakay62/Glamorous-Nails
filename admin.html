@@ -84,7 +84,7 @@
   </div>
 </header>
 
-<main class="section">
+<main class="section" style="padding: 28px 0 56px;">
   <div class="container">
     <div class="admin-shell is-visible" id="adminLoginView">
       <div class="admin-login stack-lg">
@@ -126,71 +126,65 @@
 
       <!-- ============ CATALOG TAB ============ -->
       <div class="admin-tab-panel is-active" data-tab-panel="catalog">
-        <div class="admin-grid">
-          <div>
-            <div class="admin-card">
-              <h3 style="margin-bottom:14px;">Services &amp; Pricing</h3>
-              <div class="admin-actions-grid">
-                <form id="addCategoryForm" class="admin-mini-form">
-                  <h4>Add category</h4>
-                  <input id="newCategoryName" type="text" placeholder="Category name" required>
-                  <button class="btn btn-secondary btn-sm" type="submit">Add category</button>
-                </form>
-                <form id="addProductForm" class="admin-mini-form">
-                  <h4>Add service</h4>
-                  <select id="newProductCategory" required></select>
-                  <input id="newProductName" type="text" placeholder="Service name" required>
-                  <input id="newProductPrice" type="number" min="0" placeholder="Price (GH₵)" required>
-                  <input id="newProductDuration" type="number" min="5" step="5" value="60" placeholder="Duration (minutes)" required>
-                  <input id="newProductNote" type="text" placeholder="Note (e.g. from)">
-                  <label style="display:flex; align-items:center; gap:8px; font-size:0.86rem;">
-                    <input id="newProductFeatured" type="checkbox"> Show in Popular Services on Home
-                  </label>
-                  <input id="newProductImage" type="file" accept="image/*">
-                  <div id="newProductImagePreview" style="margin-top:4px;"></div>
-                  <button class="btn btn-secondary btn-sm" type="submit">Add service</button>
-                </form>
-              </div>
-              <p class="form-note" id="catalogSavedNote" style="opacity:0.75; margin-bottom:12px;">Changes publish to the live site and booking flow immediately.</p>
-              <div style="overflow-x:auto;">
-                <table class="admin-table">
-                  <thead>
-                    <tr>
-                      <th>Category</th>
-                      <th>Image</th>
-                      <th>Service name</th>
-                      <th>Price (GH&#8373;)</th>
-                      <th>Duration (min)</th>
-                      <th>Home</th>
-                      <th>Note</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody id="pricingTableBody"></tbody>
-                </table>
-              </div>
-              <div class="hero-actions" style="justify-content:space-between; margin-top:16px;">
-                <span class="form-note" id="pricingSavedNote" style="opacity:0.75;">Edit values, then save.</span>
-                <button class="btn btn-primary btn-sm" id="savePricing">Save pricing</button>
+        <div class="admin-card">
+          <h3 style="margin-bottom:14px;">Services, Categories &amp; Closed Dates</h3>
+          <div class="admin-actions-grid" style="align-items:start;">
+            <div style="display:flex; flex-direction:column; gap:18px;">
+              <form id="addCategoryForm" class="admin-mini-form">
+                <h4>Add category</h4>
+                <input id="newCategoryName" type="text" placeholder="Category name" required>
+                <button class="btn btn-secondary btn-sm" type="submit">Add category</button>
+              </form>
+              <div class="admin-mini-form">
+                <h4>Closed dates</h4>
+                <p class="form-note" style="margin:0;">Sundays are closed automatically. Add holidays or breaks:</p>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+                  <input type="date" id="newClosedDate" style="flex:1; min-width:150px;">
+                  <button class="btn btn-secondary btn-sm" type="button" id="addClosedDate">Close date</button>
+                </div>
+                <div id="closedDatesList"></div>
               </div>
             </div>
 
-            <div class="admin-card">
-              <h3 style="margin-bottom:14px;">Closed dates</h3>
-              <p class="form-note" style="margin-bottom:12px;">Sundays are automatically closed. Add extra closed dates (holidays, breaks) below.</p>
-              <div class="hero-actions" style="justify-content:flex-start;">
-                <input type="date" id="newClosedDate" class="field" style="padding:12px 14px; border:1px solid var(--line); border-radius:10px; background:var(--bg-soft);">
-                <button class="btn btn-secondary btn-sm" id="addClosedDate">Close this date</button>
+            <form id="addProductForm" class="admin-mini-form">
+              <h4>Add service</h4>
+              <select id="newProductCategory" required></select>
+              <input id="newProductName" type="text" placeholder="Service name" required>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <input id="newProductPrice" type="number" min="0" placeholder="Price (GH₵)" required>
+                <input id="newProductDuration" type="number" min="5" step="5" value="60" placeholder="Duration (min)" required>
               </div>
-              <div id="closedDatesList" style="margin-top:14px;"></div>
-            </div>
+              <input id="newProductNote" type="text" placeholder="Note (e.g. from)">
+              <label style="display:flex; align-items:center; gap:10px; font-size:0.88rem; cursor:pointer; padding:4px 0;">
+                <input id="newProductFeatured" type="checkbox" style="width:18px; height:18px; flex-shrink:0; accent-color:var(--oxblood);">
+                <span>Show in Popular Services on Home</span>
+              </label>
+              <input id="newProductImage" type="file" accept="image/*">
+              <div id="newProductImagePreview" style="margin-top:4px;"></div>
+              <button class="btn btn-secondary btn-sm" type="submit">Add service</button>
+            </form>
           </div>
-
-          <div>
-            <div class="admin-card">
-              <h3 style="margin-bottom:10px;">Live Sync</h3>
-              <p class="service-desc">Connected to Firebase Auth, Firestore (`settings/catalog`, `bookings`, `reviews`), and Storage.</p>
-            </div>
+          <p class="form-note" id="catalogSavedNote" style="opacity:0.75; margin-bottom:12px;">Changes publish to the live site and booking flow immediately.</p>
+          <div style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Image</th>
+                  <th>Service name</th>
+                  <th>Price (GH&#8373;)</th>
+                  <th>Duration (min)</th>
+                  <th>Home</th>
+                  <th>Note</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="pricingTableBody"></tbody>
+            </table>
+          </div>
+          <div class="hero-actions" style="justify-content:space-between; margin-top:16px;">
+            <span class="form-note" id="pricingSavedNote" style="opacity:0.75;">Edit values, then save.</span>
+            <button class="btn btn-primary btn-sm" id="savePricing">Save pricing</button>
           </div>
         </div>
       </div>
