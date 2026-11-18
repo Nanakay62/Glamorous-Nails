@@ -101,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = document.getElementById("admin-email").value.trim();
     const password = document.getElementById("admin-password").value;
     loginError.textContent = "";
+    loginError.style.color = "var(--danger)";
     try {
       await AdminAuth.login(email, password);
     } catch (error) {
@@ -412,9 +413,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function authMessage(error) {
-    if (error?.code === "auth/invalid-credential") return "Email or password is incorrect.";
-    if (error?.code === "auth/too-many-requests") return "Too many attempts. Try again later.";
-    return "Unable to sign in. Check the admin account and try again.";
+    const code = error?.code ? ` (${error.code})` : "";
+    if (error?.code === "auth/invalid-credential") return `Email or password is incorrect.${code}`;
+    if (error?.code === "auth/too-many-requests") return `Too many attempts. Try again later.${code}`;
+    if (error?.code === "auth/operation-not-allowed") return `Email/Password login is disabled in Firebase Console.${code}`;
+    if (error?.code === "auth/unauthorized-domain" || error?.code === "auth/unauthorized-continue-uri") {
+      return `Add ${window.location.hostname} to Firebase Console -> Authentication -> Authorized domains.${code}`;
+    }
+    return `Unable to sign in: ${error?.message || "Check the admin account and try again."}`;
   }
 
   GNStore.onChange(() => { if (AdminAuth.isLoggedIn()) renderDashboard(); });
