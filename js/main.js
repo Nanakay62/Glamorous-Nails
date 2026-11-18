@@ -218,18 +218,60 @@ document.addEventListener('DOMContentLoaded', () => {
     const empty = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#B81D5E" stroke-width="1.8" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
     return `<div style="display:flex; gap:3px;" aria-label="${n} out of 5 stars">${filled.repeat(n)}${empty.repeat(5 - n)}</div>`;
   }
+  let reviewTimer = null;
   function renderReviewsList(reviews) {
     if (!reviewsGrid) return;
-    reviewsGrid.innerHTML = (reviews || []).slice(0, 6).map((r) => `
-      <article class="review-card">
-        ${renderStars(r.rating)}
-        <p class="review-quote">"${r.quote || ''}"</p>
-        <div>
-          <div class="review-author">${r.author || 'Client'}</div>
-          ${r.service ? `<div class="review-service">${r.service}</div>` : ''}
+    const list = (reviews || []).slice(0, 8);
+    if (!list.length) return;
+    if (reviewTimer) clearInterval(reviewTimer);
+
+    let idx = 0;
+    reviewsGrid.className = 'reviews-carousel';
+    reviewsGrid.innerHTML = `
+      <div class="reviews-stage">
+        ${list.map((r, i) => `
+          <article class="review-card review-slide${i === 0 ? ' is-active' : ''}" data-rv-idx="${i}">
+            ${renderStars(r.rating)}
+            <p class="review-quote">"${r.quote || ''}"</p>
+            <div>
+              <div class="review-author">${r.author || 'Client'}</div>
+              ${r.service ? `<div class="review-service">${r.service}</div>` : ''}
+            </div>
+          </article>
+        `).join('')}
+      </div>
+      ${list.length > 1 ? `
+        <div class="reviews-controls">
+          <button type="button" class="review-nav-btn" id="reviewPrev" aria-label="Previous review">&lsaquo;</button>
+          <div class="reviews-dots">
+            ${list.map((_, i) => `<button type="button" class="review-dot${i === 0 ? ' is-active' : ''}" data-rv-dot="${i}" aria-label="Show review ${i + 1}"></button>`).join('')}
+          </div>
+          <button type="button" class="review-nav-btn" id="reviewNext" aria-label="Next review">&rsaquo;</button>
         </div>
-      </article>
-    `).join('');
+      ` : ''}
+    `;
+
+    const slides = reviewsGrid.querySelectorAll('.review-slide');
+    const dots = reviewsGrid.querySelectorAll('.review-dot');
+    function showSlide(next) {
+      idx = (next + list.length) % list.length;
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === idx));
+      dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+    }
+    function startAuto() {
+      if (list.length <= 1) return;
+      clearInterval(reviewTimer);
+      reviewTimer = setInterval(() => showSlide(idx + 1), 5500);
+    }
+
+    reviewsGrid.querySelector('#reviewPrev')?.addEventListener('click', () => { showSlide(idx - 1); startAuto(); });
+    reviewsGrid.querySelector('#reviewNext')?.addEventListener('click', () => { showSlide(idx + 1); startAuto(); });
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => { showSlide(Number(dot.dataset.rvDot)); startAuto(); });
+    });
+    reviewsGrid.addEventListener('mouseenter', () => clearInterval(reviewTimer));
+    reviewsGrid.addEventListener('mouseleave', startAuto);
+    startAuto();
   }
   if (reviewsGrid && GNStore.getReviews) {
     GNStore.getReviews().then(renderReviewsList);
