@@ -2153,3 +2153,42 @@ img.ph {
   align-items: center;
   gap: 8px;
 }
+
+/* Recent Work + YouTube Shorts Embed */
+.recent-work-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .recent-work-layout {
+    grid-template-columns: 1.45fr 0.75fr;
+    gap: 36px;
+  }
+}
+.shorts-embed-card {
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  background: var(--blush);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 10px;
+  box-shadow: var(--shadow-md);
+}
+.shorts-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--ink);
+}
+.shorts-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
