@@ -1771,3 +1771,320 @@ img.ph {
   font-weight: 700;
   color: var(--ink);
 }
+
+/* ==========================================================================
+   Trieu-Inspired Booking Policy/FAQ & Careers Academy Page
+   ========================================================================== */
+
+/* Breadcrumb & Book Now Header */
+.breadcrumb-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 0;
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+}
+.breadcrumb-bar a {
+  color: var(--oxblood);
+  font-weight: 600;
+  text-decoration: none;
+}
+.breadcrumb-bar a:hover { text-decoration: underline; }
+
+.page-hero--book {
+  background: var(--bg-soft);
+  padding: 28px 0 24px;
+  border-bottom: 1px solid var(--line);
+}
+.page-hero--book h1 {
+  font-family: var(--f-display);
+  font-size: clamp(1.85rem, 3.8vw, 2.75rem);
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--oxblood);
+  color: var(--ink);
+}
+.page-hero--book .lede {
+  margin: 12px 0 0;
+  color: var(--ink-soft);
+  max-width: 64ch;
+}
+
+/* Booking Info & Policies */
+.booking-info-wrap {
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.policy-block h2, .policy-block h3 {
+  font-family: var(--f-display);
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+.policy-block p, .policy-block li {
+  color: var(--ink-soft);
+  line-height: 1.65;
+  font-size: 0.98rem;
+}
+.policy-block ul, .policy-block ol {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* FAQ Accordion */
+.faq-accordion {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  overflow: hidden;
+}
+.faq-item {
+  border-bottom: 1px solid var(--line);
+}
+.faq-item:last-child { border-bottom: none; }
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 16px 20px;
+  font-weight: 600;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::before {
+  content: "+";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--blush);
+  color: var(--oxblood);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.faq-item[open] summary::before {
+  content: "-";
+  background: var(--oxblood);
+  color: #FFFFFF;
+}
+.faq-item-body {
+  padding: 0 20px 18px 56px;
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
+/* Careers Page */
+.careers-eyebrow {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--oxblood);
+  margin-bottom: 10px;
+}
+.page-hero--editorial h1 em {
+  font-style: italic;
+  color: var(--oxblood);
+}
+.careers-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 768px) {
+  .careers-stats-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+}
+.careers-stat-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 28px 20px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.careers-stat-card strong {
+  display: block;
+  font-family: var(--f-display);
+  font-size: 1.75rem;
+  color: var(--oxblood);
+  margin-bottom: 6px;
+}
+.careers-stat-card span {
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+}
+
+.curriculum-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 768px) {
+  .curriculum-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+}
+.curriculum-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+.curriculum-card h3 {
+  font-family: var(--f-display);
+  font-size: 1.15rem;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+.curriculum-card p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.58;
+}
+
+.checklist-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+@media (min-width: 768px) {
+  .checklist-grid { grid-template-columns: repeat(3, 1fr); gap: 28px; }
+}
+.checklist-col h3 {
+  font-family: var(--f-display);
+  font-size: 1.15rem;
+  margin: 0 0 14px;
+  color: var(--ink);
+}
+.checklist-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.checklist-items li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.checklist-items svg {
+  width: 18px;
+  height: 18px;
+  color: var(--oxblood);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 768px) {
+  .process-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+}
+.process-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+}
+.process-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--oxblood);
+  color: #FFFFFF;
+  font-family: var(--f-display);
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.process-card h3 {
+  font-family: var(--f-display);
+  font-size: 1.08rem;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+.process-card p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.careers-banner {
+  background: linear-gradient(rgba(36,16,27,0.82), rgba(36,16,27,0.88)), url('../assets/images/medium_nails.jpeg') center/cover no-repeat;
+  color: #FFFFFF;
+  padding: 56px 0;
+}
+.careers-banner-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+}
+@media (min-width: 820px) {
+  .careers-banner-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.careers-banner h2 {
+  font-family: var(--f-display);
+  color: #FFFFFF;
+  margin: 0 0 8px;
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+}
+.careers-banner p {
+  margin: 0;
+  color: rgba(255,255,255,0.86);
+  max-width: 56ch;
+}
+.track-checkbox-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+@media (min-width: 600px) {
+  .track-checkbox-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.track-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  cursor: pointer;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+.track-checkbox input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--oxblood);
+}
