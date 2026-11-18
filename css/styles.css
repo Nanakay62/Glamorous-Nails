@@ -1525,3 +1525,28 @@ img.ph {
   border-top: 1px solid rgba(255,255,255,0.14);
   color: rgba(255,255,255,0.7);
 }
+
+/* Editorial Header & Footer Layout Fixes */
+.site-nav--editorial {
+  height: auto !important;
+  min-height: var(--nav-h);
+}
+@media (min-width: 820px) {
+  .nav-top-row {
+    grid-template-columns: 1fr auto 1fr;
+  }
+  .nav-wordmark {
+    grid-column: 2;
+    white-space: nowrap;
+  }
+  .nav-top-row > div:last-child {
+    grid-column: 3;
+    justify-self: end;
+  }
+}
+.site-footer--dark .nav-logo {
+  position: static !important;
+  transform: none !important;
+  text-align: left;
+  display: inline-block;
+}
