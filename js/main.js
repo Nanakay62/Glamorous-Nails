@@ -196,12 +196,103 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ---------- Cart Badge ---------- */
+  /* ---------- Cart Badge & Slide-Out Cart Drawer ---------- */
+  const drawerHtml = `
+    <div class="cart-drawer-overlay" id="cartDrawerOverlay" aria-hidden="true"></div>
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Selected services" aria-hidden="true">
+      <div class="cart-drawer-head">
+        <h2>Your selected services</h2>
+        <button type="button" class="cart-drawer-close" id="cartDrawerClose" aria-label="Close cart">&times;</button>
+      </div>
+      <div class="cart-drawer-body" id="cartDrawerBody"></div>
+      <div class="cart-drawer-foot" id="cartDrawerFoot">
+        <div class="cart-drawer-total">
+          <span>Estimated total</span>
+          <span id="cartDrawerTotal">GH&#8373;0</span>
+        </div>
+        <div id="cartDrawerDuration" class="form-note"></div>
+        <a class="btn btn-primary btn-block" href="booking.html">Proceed to booking</a>
+      </div>
+    </aside>
+  `;
+  document.body.insertAdjacentHTML('beforeend', drawerHtml);
+
+  const cartOverlay = document.getElementById('cartDrawerOverlay');
+  const cartDrawer = document.getElementById('cartDrawer');
+  const cartBody = document.getElementById('cartDrawerBody');
+  const cartFoot = document.getElementById('cartDrawerFoot');
+  const cartTotalEl = document.getElementById('cartDrawerTotal');
+  const cartDurEl = document.getElementById('cartDrawerDuration');
+
+  function openCartDrawer() {
+    renderCartDrawer(GNStore.getCart());
+    cartOverlay.classList.add('is-open');
+    cartDrawer.classList.add('is-open');
+    cartOverlay.setAttribute('aria-hidden', 'false');
+    cartDrawer.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeCartDrawer() {
+    cartOverlay.classList.remove('is-open');
+    cartDrawer.classList.remove('is-open');
+    cartOverlay.setAttribute('aria-hidden', 'true');
+    cartDrawer.setAttribute('aria-hidden', 'true');
+  }
+
+  document.getElementById('cartDrawerClose')?.addEventListener('click', closeCartDrawer);
+  cartOverlay?.addEventListener('click', closeCartDrawer);
+
+  document.querySelectorAll('.nav-cart-btn').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openCartDrawer();
+    });
+  });
+
+  function renderCartDrawer(cart) {
+    if (!cartBody) return;
+    const allItems = salon.categories.flatMap((c) => c.items);
+    const items = cart.map((id) => allItems.find((i) => i.id === id)).filter(Boolean);
+    if (!items.length) {
+      cartBody.innerHTML = `<p class="form-note" style="text-align:center; padding:32px 0;">No services selected yet. Browse the menu to add services to your booking.</p>`;
+      if (cartFoot) cartFoot.style.display = 'none';
+      return;
+    }
+    if (cartFoot) cartFoot.style.display = '';
+    let total = 0;
+    let totalMins = 0;
+    let hasEstimate = false;
+    cartBody.innerHTML = items.map((item) => {
+      total += Number(item.price) || 0;
+      totalMins += Number(item.durationMinutes) || 60;
+      if (item.note) hasEstimate = true;
+      return `
+        <div class="cart-drawer-item">
+          <img src="${item.image || './assets/images/long_acrylic.jpeg'}" alt="${item.name}">
+          <div>
+            <div class="cart-drawer-item-title">${item.name}</div>
+            <div class="cart-drawer-item-meta">${GNStore.formatDuration(item.durationMinutes)} · ${GNStore.formatPrice(item, salon.currency)}</div>
+          </div>
+          <button type="button" class="summary-remove-btn cart-drawer-remove" data-id="${item.id}" aria-label="Remove ${item.name}">&times;</button>
+        </div>
+      `;
+    }).join('');
+    if (cartTotalEl) cartTotalEl.textContent = `${salon.currency}${total}${hasEstimate ? '+' : ''}`;
+    if (cartDurEl) cartDurEl.textContent = `Total estimated time: ${GNStore.formatDuration(totalMins)}`;
+
+    cartBody.querySelectorAll('.cart-drawer-remove').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        GNStore.toggleCartItem(btn.getAttribute('data-id'));
+      });
+    });
+  }
+
   function updateCartBadge(cart) {
     document.querySelectorAll('#navCartBadge').forEach(badge => {
       badge.textContent = cart.length;
       badge.classList.toggle('has-items', cart.length > 0);
     });
+    renderCartDrawer(cart);
   }
   updateCartBadge(GNStore.getCart());
   GNStore.onCartChange(updateCartBadge);

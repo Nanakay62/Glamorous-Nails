@@ -3,7 +3,7 @@ import "./data.js";
 /* Single-canvas booking flow: service select -> date/time -> details -> review.
    No page reloads between steps. Ends by compiling the order into a
    formatted WhatsApp message and opening wa.me with it pre-filled.
-   Payment is explicitly in-person only — this flow never collects card data. */
+   Payment is explicitly in-person only: this flow never collects card data. */
 
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('bookingApp');
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function photoHTML(item) {
     if (item.image) {
-      return `<img class="ph" src="${item.image}" alt="${item.name} — Glamorous Nails" loading="lazy">`;
+      return `<img class="ph" src="${item.image}" alt="${item.name} at Glamorous Nails" loading="lazy">`;
     }
     return `<div class="ph" data-label="${item.name}"></div>`;
   }
@@ -74,6 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
         d.classList.toggle('is-active', dn === n);
       });
     }
+    document.querySelectorAll('.progress-step-label').forEach((lbl) => {
+      const dn = Number(lbl.dataset.step);
+      lbl.classList.toggle('is-done', dn < n);
+      lbl.classList.toggle('is-active', dn === n);
+    });
     window.scrollTo({ top: root.offsetTop - 80, behavior: 'smooth' });
     updateStickyBar();
   }
@@ -168,8 +173,27 @@ document.addEventListener('DOMContentLoaded', () => {
       const { item } = state.selected[id];
       total += item.price;
       if (item.note) hasEstimate = true;
-      return `<div class="summary-row"><span>${item.name} <small style="color:var(--ink-soft);">(${GNStore.formatDuration(item.durationMinutes)})</small></span><span>${GNStore.formatPrice(item, currency())}</span></div>`;
+      return `<div class="summary-row">
+        <div class="summary-item-left">
+          <span>${item.name}</span>
+          <small style="color:var(--ink-soft);">${GNStore.formatDuration(item.durationMinutes)}</small>
+        </div>
+        <div class="summary-item-right">
+          <span>${GNStore.formatPrice(item, currency())}</span>
+          <button type="button" class="summary-remove-btn" data-remove-id="${id}" aria-label="Remove ${item.name}">&times;</button>
+        </div>
+      </div>`;
     }).join('');
+    els.summary.querySelectorAll('.summary-remove-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-remove-id');
+        const box = els.serviceList.querySelector(`input[type=checkbox][data-id="${id}"]`);
+        if (box) box.checked = false;
+        const { item, catName } = findItem(id);
+        toggleItem(item, catName, false);
+        if (GNStore.getCart().includes(id)) GNStore.toggleCartItem(id);
+      });
+    });
     els.summaryTotal.textContent = `Estimated total: ${currency()}${total}${hasEstimate ? '+' : ''} · ${GNStore.formatDuration(totalDurationMinutes())}`;
     updateStickyBar();
   }
@@ -265,28 +289,28 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------------- Step 4: review + WhatsApp dispatch ---------------- */
   function renderReview() {
     const ids = Object.keys(state.selected);
-    const lines = ids.map((id) => `• ${state.selected[id].item.name} — ${currency()}${state.selected[id].item.price}${state.selected[id].item.note ? '+' : ''}`);
+    const lines = ids.map((id) => `• ${state.selected[id].item.name}: ${GNStore.formatPrice(state.selected[id].item, currency())}`);
     let total = 0;
     ids.forEach((id) => total += state.selected[id].item.price);
 
     els.reviewBody.innerHTML = `
       <div class="review-block">
-        <span class="eyebrow">Services</span>
+        <strong style="display:block; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--oxblood); margin-bottom:4px;">Services</strong>
         <p>${lines.join('<br>')}</p>
       </div>
       <div class="review-block">
-        <span class="eyebrow">Date &amp; time</span>
+        <strong style="display:block; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--oxblood); margin-bottom:4px;">Date &amp; time</strong>
         <p>${formatDate(state.date)} at ${state.time}</p>
       </div>
       <div class="review-block">
-        <span class="eyebrow">Your details</span>
+        <strong style="display:block; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--oxblood); margin-bottom:4px;">Your details</strong>
         <p>${state.name}<br>${state.phone}${state.notes ? `<br><span class="form-note">Note: ${state.notes}</span>` : ''}</p>
       </div>
       <div class="review-block">
-        <span class="eyebrow">Estimated total</span>
+        <strong style="display:block; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--oxblood); margin-bottom:4px;">Estimated total</strong>
         <p class="service-price">${currency()}${total}</p>
       </div>
-      <div class="pill-note" style="margin-top:8px;">Payment is strictly in person at the studio — nothing is charged online.</div>
+      <div class="info-card" style="margin-top:12px; background:var(--blush);">Payment is strictly in person at the studio (cash or mobile money). Nothing is charged online.</div>
     `;
   }
 
@@ -305,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return `- ${item.name} (${currency()}${item.price}${item.note ? '+' : ''})`;
     });
     return [
-      `New booking request — ${salon.salon_name}`,
+      `New booking request | ${salon.salon_name}`,
       ``,
       `Name: ${state.name}`,
       `Phone: ${state.phone}`,

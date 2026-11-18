@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const priceText = GNStore.formatPrice(item, currency);
     const durText = GNStore.formatDuration(item.durationMinutes);
     const media = item.image
-      ? `<img class="ph" src="${item.image}" alt="${item.name} — Glamorous Nails" width="400" height="300" loading="lazy">`
+      ? `<img class="ph" src="${item.image}" alt="${item.name} at Glamorous Nails" width="400" height="300" loading="lazy">`
       : `<div class="ph" data-label="${item.name}"></div>`;
     const inCart = GNStore.getCart().includes(item.id);
     return `
