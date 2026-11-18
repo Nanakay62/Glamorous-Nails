@@ -90,4 +90,58 @@ document.addEventListener('DOMContentLoaded', () => {
   render(latestData);
   GNStore.onChange((d) => { latestData = d; render(latestData); });
   GNStore.onCartChange(() => render(latestData));
+
+  /* ---------- Interactive Bridal, Graduation & Group Builder ---------- */
+  const groupToggle = document.getElementById('groupPackageToggle');
+  const groupPanel = document.getElementById('groupBuilderPanel');
+  const groupLabel = document.getElementById('groupToggleLabel');
+  const occasionChips = document.getElementById('groupOccasionChips');
+  let selectedOccasion = 'Bridal / Engagement';
+
+  if (groupToggle && groupPanel) {
+    groupToggle.addEventListener('click', () => {
+      const open = groupPanel.style.display === 'none';
+      groupPanel.style.display = open ? 'block' : 'none';
+      groupToggle.setAttribute('aria-expanded', String(open));
+      if (groupLabel) groupLabel.textContent = open ? 'Hide options' : 'Select group options';
+    });
+  }
+
+  occasionChips?.querySelectorAll('.chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      occasionChips.querySelectorAll('.chip').forEach((c) => c.classList.remove('is-active'));
+      chip.classList.add('is-active');
+      selectedOccasion = chip.getAttribute('data-occasion') || 'Group Booking';
+    });
+  });
+
+  groupPanel?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const guests = document.getElementById('grp-guests')?.value || '2';
+    const dateVal = document.getElementById('grp-date')?.value || '';
+    const notesVal = document.getElementById('grp-notes')?.value.trim() || '';
+    const services = [...groupPanel.querySelectorAll('input[name="grpService"]:checked')].map((c) => c.value);
+    const errEl = document.getElementById('grp-service-error');
+    if (!services.length) {
+      if (errEl) {
+        errEl.textContent = 'Please select at least one service for your group.';
+        errEl.style.display = 'block';
+      }
+      return;
+    }
+    if (errEl) errEl.style.display = 'none';
+
+    const waPhone = latestData?.contact?.whatsapp_dispatch || '233502743916';
+    const msg = [
+      `Group / Event Booking Enquiry | Glamorous Nails`,
+      ``,
+      `Occasion: ${selectedOccasion}`,
+      `Number of guests: ${guests}`,
+      dateVal ? `Preferred date: ${dateVal}` : '',
+      `Services needed: ${services.join(', ')}`,
+      notesVal ? `Notes: ${notesVal}` : ''
+    ].filter(Boolean).join('\n');
+
+    window.open(`https://wa.me/${waPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+  });
 });

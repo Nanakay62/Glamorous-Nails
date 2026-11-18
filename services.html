@@ -92,18 +92,66 @@
     </div>
   </section>
 
-  <!-- OPTION 3: BRIDAL, GRADUATION & GROUP PACKAGES -->
-  <section class="section" style="padding-top:16px;">
+  <!-- OPTION 3: BRIDAL, GRADUATION & GROUP PACKAGES (CLICKABLE BUILDER) -->
+  <section class="section" style="padding-top:16px;" id="groupBookings">
     <div class="container">
-      <div class="packages-callout">
-        <div>
-          <span class="careers-eyebrow">Special Occasions &amp; Groups</span>
-          <h2>Bridal, Graduation &amp; Group Bookings</h2>
-          <p>Getting ready for a wedding, University of Ghana (Legon) graduation, or birthday glam with friends? Book custom coordinated packages for Nails, Lashes, Makeup, and Pedicure for 2 or more guests.</p>
-        </div>
-        <div>
-          <a class="btn btn-whatsapp" href="https://wa.me/233502743916?text=Hello%20Glamorous%20Nails%2C%20I%20would%20like%20to%20enquire%20about%20a%20Bridal%20%2F%20Graduation%20%2F%20Group%20booking%3A%0A%0AOccasion%3A%20%0ANumber%20of%20people%3A%20%0APreferred%20date%20%26%20time%3A%20%0AServices%20needed%3A%20" target="_blank" rel="noopener">Enquire on WhatsApp</a>
-        </div>
+      <div class="packages-card">
+        <button type="button" class="packages-trigger" id="groupPackageToggle" aria-expanded="false" aria-controls="groupBuilderPanel">
+          <div>
+            <span class="careers-eyebrow">Special Occasions &amp; Groups</span>
+            <h2>Bridal, Graduation &amp; Group Bookings</h2>
+            <p>Getting ready for a wedding, University of Ghana (Legon) graduation, or birthday glam with friends? Tap here to choose your occasion, guest count, and services for WhatsApp.</p>
+          </div>
+          <span class="btn btn-primary btn-sm packages-trigger-cta" id="groupToggleLabel">Select group options</span>
+        </button>
+
+        <form class="packages-builder" id="groupBuilderPanel" style="display:none;">
+          <hr class="hairline" style="margin:20px 0;">
+          <div class="field">
+            <label>1. Occasion</label>
+            <div class="chip-row" id="groupOccasionChips" style="margin-bottom:0; flex-wrap:wrap;">
+              <button type="button" class="chip is-active" data-occasion="Bridal / Engagement">Bridal / Engagement</button>
+              <button type="button" class="chip" data-occasion="Graduation (Legon / Campus)">Graduation (Legon / Campus)</button>
+              <button type="button" class="chip" data-occasion="Birthday Glam">Birthday Glam</button>
+              <button type="button" class="chip" data-occasion="Group Booking">Group Booking</button>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:12px; align-items:end;">
+            <div class="field">
+              <label for="grp-guests">2. Number of guests</label>
+              <input id="grp-guests" type="number" min="2" value="3" placeholder="e.g. 3" required>
+            </div>
+            <div class="field">
+              <label for="grp-date">3. Preferred date</label>
+              <input id="grp-date" type="date">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>4. Services needed for the group</label>
+            <div class="track-checkbox-grid" style="grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));">
+              <label class="track-checkbox"><input type="checkbox" name="grpService" value="Nails & Acrylics" checked> Nails &amp; Acrylics</label>
+              <label class="track-checkbox"><input type="checkbox" name="grpService" value="Gel Polish"> Gel Polish</label>
+              <label class="track-checkbox"><input type="checkbox" name="grpService" value="Manicure"> Manicure</label>
+              <label class="track-checkbox"><input type="checkbox" name="grpService" value="Pedicure" checked> Pedicure</label>
+              <label class="track-checkbox"><input type="checkbox" name="grpService" value="Lashes" checked> Lashes</label>
+              <label class="track-checkbox"><input type="checkbox" name="grpService" value="Bridal / Event Makeup"> Bridal / Event Makeup</label>
+              <label class="track-checkbox"><input type="checkbox" name="grpService" value="Facials"> Facials</label>
+              <label class="track-checkbox"><input type="checkbox" name="grpService" value="Piercings"> Piercings</label>
+            </div>
+            <p id="grp-service-error" class="form-note" style="color:var(--danger); display:none; margin-top:6px;"></p>
+          </div>
+
+          <div class="field">
+            <label for="grp-notes">Additional notes (optional)</label>
+            <textarea id="grp-notes" placeholder="Preferred time, colour theme, or any special requests"></textarea>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end;">
+            <button type="submit" class="btn btn-whatsapp">Send Group Enquiry on WhatsApp</button>
+          </div>
+        </form>
       </div>
     </div>
   </section>
