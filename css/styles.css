@@ -2414,3 +2414,75 @@ img.ph {
     gap: 8px;
   }
 }
+
+/* ==========================================================================
+   Subtle Hero Corner Polish & Nail Shape Float Accents (Option 2)
+   ========================================================================== */
+
+.hero-trieu-left {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+.hero-trieu-left > *:not(.hero-float-decor) {
+  position: relative;
+  z-index: 2;
+}
+.hero-float-decor {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-ribbon {
+  position: absolute;
+  top: -12px;
+  right: -40px;
+  width: 280px;
+  animation: gnFloatRibbon 9s ease-in-out infinite;
+}
+.float-nail {
+  position: absolute;
+  filter: drop-shadow(0 4px 10px rgba(184, 29, 94, 0.08));
+}
+.float-nail--1 {
+  width: 34px;
+  top: 24px;
+  right: 26px;
+  transform: rotate(16deg);
+  animation: gnFloatNailA 7.5s ease-in-out infinite;
+}
+.float-nail--2 {
+  width: 28px;
+  bottom: 24px;
+  right: 48px;
+  transform: rotate(-18deg);
+  animation: gnFloatNailB 8.5s ease-in-out infinite;
+}
+.float-nail--3 {
+  width: 26px;
+  bottom: 18px;
+  left: 14px;
+  transform: rotate(-12deg);
+  animation: gnFloatNailA 10s ease-in-out infinite reverse;
+}
+@media (max-width: 639px) {
+  .float-nail--3 { display: none; }
+  .hero-ribbon { width: 210px; right: -50px; top: -18px; opacity: 0.75; }
+}
+@keyframes gnFloatRibbon {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50%      { transform: translate(-8px, 6px) rotate(2deg); }
+}
+@keyframes gnFloatNailA {
+  0%, 100% { transform: translateY(0) rotate(14deg); }
+  50%      { transform: translateY(-9px) rotate(20deg); }
+}
+@keyframes gnFloatNailB {
+  0%, 100% { transform: translateY(0) rotate(-18deg); }
+  50%      { transform: translateY(8px) rotate(-12deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-ribbon, .float-nail { animation: none; }
+}
