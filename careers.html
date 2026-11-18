@@ -230,17 +230,32 @@
     </div>
   </section>
 
+  <!-- APPRENTICESHIP REQUIREMENTS & RULES PREVIEW -->
+  <section class="section" style="padding-bottom: 16px;">
+    <div class="container" style="max-width:720px;">
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary>Apprenticeship Agreement: Items to Provide &amp; Studio Rules</summary>
+          <div class="faq-item-body">
+            <p style="margin-top:0;"><strong>1. Items to be provided by the apprentice:</strong> Three (3) sets of towels, Three (3) pairs of scissors, Two (2) trimmers, One (1) cotton roll, Three (3) nail files, Three (3) buffers, One (1) pack of normal nails, One (1) pack of French tips, and One (1) crate of malt.</p>
+            <p><strong>2. Rules &amp; Work Hours:</strong> Reporting time is 8:00 AM; closing time is 7:00 PM or later as required (Mon to Sat, flexible to student schedule). Full terms are included in your downloadable 3-page Agreement PDF below.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <!-- TRAINING APPLICATION FORM -->
-  <section class="section" id="applyTraining">
+  <section class="section" id="applyTraining" style="padding-top: 16px;">
     <div class="container" style="max-width:720px;">
       <div class="booking-panel">
-        <span class="careers-eyebrow">Application Form</span>
+        <span class="careers-eyebrow">Apprenticeship &amp; Training Form</span>
         <h2 style="margin-bottom:8px;">Start your beauty training</h2>
-        <p class="lede" style="margin-bottom:20px;">Fill in your details below and tap Submit to open WhatsApp with your training application pre-filled.</p>
+        <p class="lede" style="margin-bottom:20px;">Fill in your details and tick the courses you want to learn. Submitting generates your complete 3-page Apprenticeship Agreement PDF ready to share on WhatsApp.</p>
         <form id="careersForm">
           <div class="field">
-            <label for="cr-name">Full name</label>
-            <input id="cr-name" type="text" placeholder="Your full name" required>
+            <label for="cr-name">Applicant full name</label>
+            <input id="cr-name" type="text" placeholder="e.g. Abena Boateng" required>
           </div>
           <div class="field">
             <label for="cr-phone">Phone / WhatsApp number</label>
@@ -248,15 +263,18 @@
             <p id="cr-phone-error" class="form-note" style="color:var(--danger); display:none; margin-top:6px;"></p>
           </div>
           <div class="field">
-            <label>Courses you are interested in</label>
+            <label>Courses you want to learn (included in your Agreement PDF)</label>
             <div class="track-checkbox-grid">
-              <label class="track-checkbox"><input type="checkbox" name="track" value="Nail Fixing & Acrylics"> Nail Fixing &amp; Acrylics</label>
+              <label class="track-checkbox"><input type="checkbox" name="track" value="Pedicure"> Pedicure</label>
+              <label class="track-checkbox"><input type="checkbox" name="track" value="Manicure"> Manicure</label>
+              <label class="track-checkbox"><input type="checkbox" name="track" value="Nail Extensions & Acrylics"> Nail Extensions &amp; Acrylics</label>
               <label class="track-checkbox"><input type="checkbox" name="track" value="Gel Polish & Nail Art"> Gel Polish &amp; Nail Art</label>
-              <label class="track-checkbox"><input type="checkbox" name="track" value="Manicure & Pedicure"> Manicure &amp; Pedicure</label>
-              <label class="track-checkbox"><input type="checkbox" name="track" value="Eyelash Fixing"> Eyelash Fixing</label>
+              <label class="track-checkbox"><input type="checkbox" name="track" value="Bridal Make-Up"> Bridal Make-Up</label>
+              <label class="track-checkbox"><input type="checkbox" name="track" value="Eyelash Extensions"> Eyelash Extensions</label>
               <label class="track-checkbox"><input type="checkbox" name="track" value="Microblading & Brows"> Microblading &amp; Brows</label>
-              <label class="track-checkbox"><input type="checkbox" name="track" value="Makeup Artistry"> Makeup Artistry</label>
+              <label class="track-checkbox"><input type="checkbox" name="track" value="Facial Treatments"> Facial Treatments</label>
             </div>
+            <p id="cr-track-error" class="form-note" style="color:var(--danger); display:none; margin-top:6px;"></p>
           </div>
           <div class="field">
             <label for="cr-level">Current experience level</label>
@@ -267,11 +285,25 @@
               <option value="Experienced technician applying for a chair">Experienced technician applying for a chair</option>
             </select>
           </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+            <div class="field">
+              <label for="cr-guardian-name">Parent / Guardian / Spouse name (optional)</label>
+              <input id="cr-guardian-name" type="text" placeholder="Full name">
+            </div>
+            <div class="field">
+              <label for="cr-guardian-rel">Relationship (optional)</label>
+              <input id="cr-guardian-rel" type="text" placeholder="e.g. Mother, Father, Spouse">
+            </div>
+            <div class="field">
+              <label for="cr-guardian-phone">Guardian contact number (optional)</label>
+              <input id="cr-guardian-phone" type="tel" placeholder="e.g. 024 000 0000">
+            </div>
+          </div>
           <div class="field">
             <label for="cr-notes">Preferred training days or questions (optional)</label>
             <textarea id="cr-notes" placeholder="e.g. Preferred days between Mon to Sat, start month, or questions"></textarea>
           </div>
-          <button type="submit" class="btn btn-whatsapp btn-block">Generate PDF &amp; Apply on WhatsApp</button>
+          <button type="submit" class="btn btn-whatsapp btn-block">Generate Agreement PDF &amp; Apply on WhatsApp</button>
         </form>
         <div id="careersPdfResult" style="display:none; margin-top:20px; padding:18px; border-radius:var(--radius-md); background:var(--blush); border:1px solid var(--oxblood);">
           <strong style="display:block; margin-bottom:6px; color:var(--ink);">Application PDF downloaded!</strong>
@@ -333,47 +365,142 @@
   let lastPdfBlob = null;
   let lastPdfName = "Glamorous-Nails-Training-Application.pdf";
 
-  function buildApplicationPdf({ name, rawPhone, level, tracks, notes }) {
+  function buildApplicationPdf({ name, rawPhone, level, tracks, notes, guardianName, guardianRel, guardianPhone }) {
     if (!window.jspdf || !window.jspdf.jsPDF) return null;
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: "pt", format: "a4" });
     const pageW = doc.internal.pageSize.getWidth();
+    const margin = 48;
+    const maxW = pageW - margin * 2;
+    const todayStr = new Date().toLocaleDateString("en-GB", { dateStyle: "long" });
+    const courseList = tracks.length ? tracks : ["Pedicure", "Manicure", "Nail Extensions", "Bridal Make-Up", "Eyelash Extensions", "Facial Treatments"];
+    const courseSummary = courseList.join(", ");
 
-    // Header band
-    doc.setFillColor(184, 29, 94);
-    doc.rect(0, 0, pageW, 88, "F");
-    doc.setTextColor(255, 255, 255);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(20);
-    doc.text("GLAMOROUS NAILS", 48, 42);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(11);
-    doc.text("Training & Careers Application Form | Haatso Supermarket Junction, Accra", 48, 64);
-
-    // Body
-    doc.setTextColor(36, 16, 27);
-    let y = 130;
-    const addRow = (label, value) => {
+    function drawHeader(subtitle) {
+      doc.setFillColor(184, 29, 94);
+      doc.rect(0, 0, pageW, 82, "F");
+      doc.setTextColor(255, 255, 255);
       doc.setFont("helvetica", "bold");
-      doc.setFontSize(10);
-      doc.setTextColor(184, 29, 94);
-      doc.text(label.toUpperCase(), 48, y);
-      y += 18;
+      doc.setFontSize(17);
+      doc.text("GLAMOROUS NAILS - APPRENTICESHIP AGREEMENT", margin, 34);
       doc.setFont("helvetica", "normal");
-      doc.setFontSize(12);
-      doc.setTextColor(36, 16, 27);
-      const lines = doc.splitTextToSize(value || "N/A", pageW - 96);
-      doc.text(lines, 48, y);
-      y += lines.length * 16 + 16;
-    };
+      doc.setFontSize(9.5);
+      doc.text("LOCATION: HAATSO SUPERMARKET JUNCTION, ACCRA-NORTH", margin, 52);
+      doc.text(`CONTACT: 0240876736 / 0502743916   |   ${subtitle}`, margin, 67);
+    }
 
-    addRow("Applicant Name", name);
-    addRow("Phone / WhatsApp", rawPhone);
-    addRow("Experience Level", level);
-    addRow("Selected Training Courses", tracks.length ? tracks.join(", ") : "General studio training / career");
-    addRow("Preferred Days / Notes", notes || "Flexible (Monday to Saturday)");
-    addRow("Programme Notes", "Training runs Monday to Saturday (flexible to student preference). Certificate provided upon completion. Starter kit detailed by the salon.");
-    addRow("Date Submitted", new Date().toLocaleDateString("en-GB", { dateStyle: "long" }));
+    function writePara(text, y, fontSize = 10.5, bold = false, color = [36, 16, 27]) {
+      doc.setFont("helvetica", bold ? "bold" : "normal");
+      doc.setFontSize(fontSize);
+      doc.setTextColor(...color);
+      const lines = doc.splitTextToSize(text, maxW);
+      doc.text(lines, margin, y);
+      return y + lines.length * (fontSize + 4) + 6;
+    }
+
+    function writeHeading(text, y) {
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(11.5);
+      doc.setTextColor(184, 29, 94);
+      doc.text(text, margin, y);
+      doc.setDrawColor(238, 214, 224);
+      doc.line(margin, y + 5, pageW - margin, y + 5);
+      return y + 22;
+    }
+
+    // ============ PAGE 1: AGREEMENT LETTER, ITEMS & FEES ============
+    drawHeader("Page 1 of 3");
+    let y = 114;
+    y = writeHeading("APPRENTICESHIP AGREEMENT LETTER", y);
+    y = writePara(`Applicant: ${name}   |   Phone / WhatsApp: ${rawPhone}   |   Date: ${todayStr}`, y, 10, true);
+    y += 4;
+    y = writePara(
+      `I, Madam Tsodzinee Adra, hereby refer to your application and our discussion regarding the apprenticeship program at Glamorous Nails, which includes ${courseSummary}.`,
+      y, 10.8
+    );
+    y = writePara("I am pleased to inform you that your request has been approved, subject to the following terms and conditions:", y, 10.8);
+
+    y += 8;
+    y = writeHeading("1. ITEMS TO BE PROVIDED BY THE APPRENTICE", y);
+    const items = [
+      "Three (3) sets of towels",
+      "Three (3) pairs of scissors",
+      "Two (2) trimmers",
+      "One (1) cotton roll",
+      "Three (3) nail files",
+      "Three (3) buffers",
+      "One (1) pack of normal nails",
+      "One (1) pack of French tips",
+      "One (1) crate of malt"
+    ];
+    items.forEach((it) => {
+      y = writePara(`-  ${it}`, y, 10.5);
+      y -= 3;
+    });
+
+    y += 10;
+    y = writeHeading("2. ADMISSION FEES", y);
+    y = writePara("An amount determined by Glamorous Nails based on the duration of the training (months or years).", y, 10.5);
+
+    // ============ PAGE 2: RULES, REGULATIONS & DUTIES ============
+    doc.addPage();
+    drawHeader("Page 2 of 3");
+    y = 114;
+    y = writeHeading("3. RULES AND REGULATIONS", y);
+    const rules = [
+      ["Work Hours:", "Reporting time is 8:00 AM; closing time is 7:00 PM or later as required."],
+      ["Salon Cleanliness:", "The apprentice is responsible for maintaining cleanliness in the salon at all times."],
+      ["Prohibited Behaviours:", "Stealing, quarrelling, misuse of materials, or any other form of misconduct is strictly forbidden."],
+      ["Visitor Policy:", "Inviting friends to the salon during working hours is not permitted."],
+      ["Attendance:", "Lateness and absenteeism without valid reasons will attract penalties."],
+      ["Conduct:", "Serious offenses or misconduct may lead to dismissal. In such cases, the apprentice must settle all outstanding debts before leaving."],
+      ["Training Period:", "The apprentice is expected to complete the training within one (1) to two (2) years and must not exhibit laziness."]
+    ];
+    rules.forEach(([title, body]) => {
+      y = writePara(`${title} ${body}`, y, 10.3);
+      y += 2;
+    });
+
+    y += 10;
+    y = writeHeading("4. DUTIES OF GLAMOROUS NAILS", y);
+    y = writePara("Glamorous Nails will provide the apprentice with practical training and instruction in techniques of beauty therapy, including:", y, 10.5);
+    courseList.forEach((course) => {
+      y = writePara(`-  ${course}`, y, 10.5, true);
+      y -= 3;
+    });
+    y += 6;
+    y = writePara(
+      "At its discretion, Glamorous Nails may allow a passed trainee to practice at the salon for one (1) year, subject to good behaviour. Glamorous Nails will ensure the apprentice acquires the necessary expertise within the agreed period.",
+      y, 10.5
+    );
+
+    // ============ PAGE 3: SIGNATURES & DECLARATION ============
+    doc.addPage();
+    drawHeader("Page 3 of 3");
+    y = 114;
+    y = writeHeading("ACCEPTANCE / DECLARATION", y);
+    y = writePara(
+      `I, ${name}, hereby agree to the terms and conditions governing the apprenticeship training at Glamorous Nails and promise to abide by them.`,
+      y, 11, true
+    );
+    y = writePara(`Experience Level: ${level}${notes ? `   |   Notes: ${notes}` : ""}`, y, 9.8, false, [94, 69, 82]);
+    y += 10;
+    y = writePara(`Applicant Name: ${name}`, y, 10.5);
+    y = writePara(`Signature (Apprentice): ___________________________     Date: ${todayStr}`, y, 10.5);
+
+    y += 16;
+    y = writeHeading("PARENT / GUARDIAN / SPOUSE DETAILS", y);
+    y = writePara(`Name: ${guardianName || "______________________________________"}`, y, 10.5);
+    y = writePara(`Relationship (Mr./Mrs./Miss): ${guardianRel || "_________________________"}`, y, 10.5);
+    y = writePara(`Contact Number: ${guardianPhone || "________________________________"}`, y, 10.5);
+    y = writePara("Signature: ___________________________     Date: _______________________", y, 10.5);
+
+    y += 16;
+    y = writeHeading("OFFICE USE ONLY", y);
+    y = writePara("Date of Commencement: _________________________________", y, 10.5);
+    y = writePara("Date of Completion: ____________________________________", y, 10.5);
+    y = writePara("Authorized Representative: Madam Tsodzinee Adra", y, 10.5, true);
+    y = writePara("Signature (Authorized Representative of Glamorous Nails): ___________________________", y, 10.5);
 
     return doc;
   }
@@ -383,6 +510,7 @@
     const name = document.getElementById("cr-name").value.trim();
     const rawPhone = document.getElementById("cr-phone").value.trim();
     const phoneErr = document.getElementById("cr-phone-error");
+    const trackErr = document.getElementById("cr-track-error");
     const cleaned = rawPhone.replace(/[\s\-()]/g, "");
     if (!/^(?:\+?233|0)(?:2[034678]|5[045679])\d{7}$/.test(cleaned)) {
       phoneErr.textContent = "Enter a valid Ghana number (e.g. 024 000 0000 or +233 24 000 0000).";
@@ -392,28 +520,41 @@
     }
     phoneErr.style.display = "none";
     const tracks = [...document.querySelectorAll('input[name="track"]:checked')].map((c) => c.value);
+    if (!tracks.length) {
+      if (trackErr) {
+        trackErr.textContent = "Please tick at least one course you want to learn.";
+        trackErr.style.display = "block";
+      }
+      return;
+    }
+    if (trackErr) trackErr.style.display = "none";
+
     const level = document.getElementById("cr-level").value;
     const notes = document.getElementById("cr-notes").value.trim();
+    const guardianName = document.getElementById("cr-guardian-name")?.value.trim() || "";
+    const guardianRel = document.getElementById("cr-guardian-rel")?.value.trim() || "";
+    const guardianPhone = document.getElementById("cr-guardian-phone")?.value.trim() || "";
     const salon = window.GNStore ? window.GNStore.load() : { contact: { whatsapp_dispatch: "233502743916" }, salon_name: "Glamorous Nails" };
 
-    const pdfDoc = buildApplicationPdf({ name, rawPhone, level, tracks, notes });
+    const pdfDoc = buildApplicationPdf({ name, rawPhone, level, tracks, notes, guardianName, guardianRel, guardianPhone });
     const safeName = name.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "") || "Applicant";
-    lastPdfName = `Glamorous-Nails-Application-${safeName}.pdf`;
+    lastPdfName = `Glamorous-Nails-Apprenticeship-Agreement-${safeName}.pdf`;
     if (pdfDoc) {
       lastPdfBlob = pdfDoc.output("blob");
       pdfDoc.save(lastPdfName);
     }
 
     const msg = [
-      `Training / Career Application | ${salon.salon_name}`,
+      `Apprenticeship Application | ${salon.salon_name}`,
       ``,
       `Name: ${name}`,
       `Phone: ${rawPhone}`,
       `Experience: ${level}`,
-      `Interested in: ${tracks.length ? tracks.join(", ") : "General studio training / career"}`,
+      `Courses Selected: ${tracks.join(", ")}`,
+      guardianName ? `Parent/Guardian/Spouse: ${guardianName}${guardianRel ? ` (${guardianRel})` : ""}` : "",
       notes ? `Notes: ${notes}` : "",
       ``,
-      `(My PDF application form "${lastPdfName}" has been downloaded and is attached.)`
+      `(My 3-page Apprenticeship Agreement PDF "${lastPdfName}" has been downloaded and is attached.)`
     ].filter(Boolean).join("\n");
 
     const waUrl = `https://wa.me/${salon.contact.whatsapp_dispatch}?text=${encodeURIComponent(msg)}`;
