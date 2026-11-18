@@ -11,6 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (toggle && menu) {
     toggle.addEventListener('click', () => {
       const open = toggle.classList.toggle('is-open');
+      if (open) {
+        const nav = document.querySelector('.site-nav');
+        if (nav) {
+          menu.style.top = Math.max(nav.getBoundingClientRect().bottom, 0) + 'px';
+        }
+      }
       menu.classList.toggle('is-open', open);
       toggle.setAttribute('aria-expanded', String(open));
       document.body.style.overflow = open ? 'hidden' : '';
