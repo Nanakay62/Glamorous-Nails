@@ -3,35 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Studio Login - Glamorous Nails Admin</title>
+<title>Studio Dashboard | Glamorous Nails Admin</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="data:,">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23B81D5E'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='15' fill='%23FFF9F6'%3EGN%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 <style>
   .pricing-thumb-wrap { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
   .pricing-thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); }
   .pricing-thumb-wrap input[type="file"] { font-size: 0.75rem; max-width: 140px; }
 
-  /* ============ TABS ============ */
   .admin-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
   .admin-tab-btn {
-    padding: 10px 16px;
+    padding: 10px 18px;
     border-radius: 10px;
     border: 1px solid var(--line);
-    background: var(--bg-soft);
+    background: var(--white);
     cursor: pointer;
     font: inherit;
     font-weight: 600;
-    color: inherit;
+    color: var(--ink);
   }
-  .admin-tab-btn.is-active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .admin-tab-btn.is-active { background: var(--oxblood); color: #fff; border-color: var(--oxblood); }
   .admin-tab-panel { display: none; }
   .admin-tab-panel.is-active { display: block; }
 
-  /* ============ RESPONSIVE ADMIN LAYOUT ============ */
   @media (max-width: 860px) {
     .admin-topbar { flex-wrap: wrap; gap: 12px; }
     .admin-grid { grid-template-columns: 1fr !important; }
@@ -49,6 +47,7 @@
       border-radius: 10px;
       margin-bottom: 12px;
       padding: 10px;
+      background: var(--white);
     }
     .admin-table td {
       border: none;
@@ -60,7 +59,7 @@
       display: block;
       font-size: 0.72rem;
       font-weight: 600;
-      opacity: 0.6;
+      color: var(--ink-soft);
       margin-bottom: 2px;
     }
     .pricing-thumb-wrap { flex-direction: row; align-items: center; gap: 10px; }
@@ -69,12 +68,18 @@
 </head>
 <body data-page="admin">
 
-<header class="site-nav">
-  <div class="container nav-inner">
-    <a class="nav-logo" style="position:static; transform:none;" href="index.html">Glamorous Nails</a>
-    <div style="margin-left:auto; display:flex; gap:12px;">
-      <a class="btn btn-secondary btn-sm" href="index.html">View site</a>
-      <button class="btn btn-secondary btn-sm" id="adminLogout" style="display:none;">Log out</button>
+<header class="site-nav site-nav--editorial">
+  <div class="container">
+    <div class="nav-top-row">
+      <span></span>
+      <a class="nav-wordmark" href="index.html">
+        <span class="nav-wordmark-main">Glamorous Nails</span>
+        <span class="nav-wordmark-sub">Studio Admin</span>
+      </a>
+      <div style="display:flex; gap:10px; justify-self:end;">
+        <a class="btn btn-secondary btn-sm" href="index.html">View site</a>
+        <button class="btn btn-secondary btn-sm" id="adminLogout" style="display:none;">Log out</button>
+      </div>
     </div>
   </div>
 </header>
@@ -84,9 +89,9 @@
     <div class="admin-shell is-visible" id="adminLoginView">
       <div class="admin-login stack-lg">
         <div class="center-text">
-          <span class="eyebrow">Studio access</span>
+          <span class="careers-eyebrow">Studio Access</span>
           <h1 class="h2" style="margin-top:8px;">Sign in to manage the studio</h1>
-          <p class="lede" style="margin:10px auto 0;">Update products, prices, closed dates, and booking requests.</p>
+          <p class="lede" style="margin:10px auto 0;">Update services, durations, prices, closed dates, reviews, and booking requests.</p>
         </div>
         <form id="adminLoginForm" class="booking-panel stack-lg">
           <div class="field">
@@ -108,14 +113,15 @@
       <div class="admin-topbar">
         <div>
           <h1 class="h2" style="margin:0;">Studio dashboard</h1>
-          <span class="status-banner"><span class="badge-dot"></span> Live - edits appear on the site instantly</span>
+          <span class="status-banner"><span class="badge-dot"></span> Live: edits appear on the website immediately</span>
         </div>
         <button class="btn btn-secondary btn-sm" id="resetDefaultsBtn">Reset to defaults</button>
       </div>
 
       <div class="admin-tabs" role="tablist">
-        <button class="admin-tab-btn is-active" type="button" data-tab="catalog" role="tab" aria-selected="true">Catalog</button>
+        <button class="admin-tab-btn is-active" type="button" data-tab="catalog" role="tab" aria-selected="true">Services &amp; Pricing</button>
         <button class="admin-tab-btn" type="button" data-tab="bookings" role="tab" aria-selected="false">Client Bookings</button>
+        <button class="admin-tab-btn" type="button" data-tab="reviews" role="tab" aria-selected="false">Reviews</button>
       </div>
 
       <!-- ============ CATALOG TAB ============ -->
@@ -123,41 +129,55 @@
         <div class="admin-grid">
           <div>
             <div class="admin-card">
-              <h3 style="margin-bottom:14px;">Catalog</h3>
+              <h3 style="margin-bottom:14px;">Services &amp; Pricing</h3>
               <div class="admin-actions-grid">
                 <form id="addCategoryForm" class="admin-mini-form">
                   <h4>Add category</h4>
                   <input id="newCategoryName" type="text" placeholder="Category name" required>
-                  <input id="newCategoryIcon" type="text" placeholder="Icon">
                   <button class="btn btn-secondary btn-sm" type="submit">Add category</button>
                 </form>
                 <form id="addProductForm" class="admin-mini-form">
-                  <h4>Add product</h4>
+                  <h4>Add service</h4>
                   <select id="newProductCategory" required></select>
-                  <input id="newProductName" type="text" placeholder="Product name" required>
-                  <input id="newProductPrice" type="number" min="0" placeholder="Price" required>
-                  <input id="newProductNote" type="text" placeholder="Note">
+                  <input id="newProductName" type="text" placeholder="Service name" required>
+                  <input id="newProductPrice" type="number" min="0" placeholder="Price (GH₵)" required>
+                  <input id="newProductDuration" type="number" min="5" step="5" value="60" placeholder="Duration (minutes)" required>
+                  <input id="newProductNote" type="text" placeholder="Note (e.g. from)">
+                  <label style="display:flex; align-items:center; gap:8px; font-size:0.86rem;">
+                    <input id="newProductFeatured" type="checkbox"> Show in Popular Services on Home
+                  </label>
                   <input id="newProductImage" type="file" accept="image/*">
                   <div id="newProductImagePreview" style="margin-top:4px;"></div>
-                  <button class="btn btn-secondary btn-sm" type="submit">Add product</button>
+                  <button class="btn btn-secondary btn-sm" type="submit">Add service</button>
                 </form>
               </div>
-              <p class="form-note" id="catalogSavedNote" style="opacity:0.6; margin-bottom:12px;">New categories and products publish instantly.</p>
+              <p class="form-note" id="catalogSavedNote" style="opacity:0.75; margin-bottom:12px;">Changes publish to the live site and booking flow immediately.</p>
               <div style="overflow-x:auto;">
                 <table class="admin-table">
-                  <thead><tr><th>Category</th><th>Image</th><th>Service name</th><th>Price</th><th>Note</th><th></th></tr></thead>
+                  <thead>
+                    <tr>
+                      <th>Category</th>
+                      <th>Image</th>
+                      <th>Service name</th>
+                      <th>Price (GH&#8373;)</th>
+                      <th>Duration (min)</th>
+                      <th>Home</th>
+                      <th>Note</th>
+                      <th></th>
+                    </tr>
+                  </thead>
                   <tbody id="pricingTableBody"></tbody>
                 </table>
               </div>
               <div class="hero-actions" style="justify-content:space-between; margin-top:16px;">
-                <span class="form-note" id="pricingSavedNote" style="opacity:0.6;">Edit values, then save.</span>
+                <span class="form-note" id="pricingSavedNote" style="opacity:0.75;">Edit values, then save.</span>
                 <button class="btn btn-primary btn-sm" id="savePricing">Save pricing</button>
               </div>
             </div>
 
             <div class="admin-card">
               <h3 style="margin-bottom:14px;">Closed dates</h3>
-              <p class="form-note" style="margin-bottom:12px;">Dates added here are removed from the booking calendar immediately.</p>
+              <p class="form-note" style="margin-bottom:12px;">Sundays are automatically closed. Add extra closed dates (holidays, breaks) below.</p>
               <div class="hero-actions" style="justify-content:flex-start;">
                 <input type="date" id="newClosedDate" class="field" style="padding:12px 14px; border:1px solid var(--line); border-radius:10px; background:var(--bg-soft);">
                 <button class="btn btn-secondary btn-sm" id="addClosedDate">Close this date</button>
@@ -168,8 +188,8 @@
 
           <div>
             <div class="admin-card">
-              <h3 style="margin-bottom:10px;">Production mode</h3>
-              <p class="service-desc">Catalog edits and bookings now use Firebase Auth, Firestore, and Storage.</p>
+              <h3 style="margin-bottom:10px;">Live Sync</h3>
+              <p class="service-desc">Connected to Firebase Auth, Firestore (`settings/catalog`, `bookings`, `reviews`), and Storage.</p>
             </div>
           </div>
         </div>
@@ -197,17 +217,37 @@
           </div>
         </div>
       </div>
+
+      <!-- ============ REVIEWS TAB ============ -->
+      <div class="admin-tab-panel" data-tab-panel="reviews">
+        <div class="admin-card">
+          <h3 style="margin-bottom:14px;">Client reviews (Firestore)</h3>
+          <p class="form-note" style="margin-bottom:12px;">Reviews submitted on the website appear here for moderation.</p>
+          <div style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Author</th>
+                  <th>Service</th>
+                  <th>Rating</th>
+                  <th>Review</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="reviewsLog"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </main>
 
-<footer class="site-footer">
+<footer class="site-footer site-footer--dark">
   <div class="container">
     <div class="footer-bottom" style="border-top:none; padding-top:0;">
-      <div style="display:flex; flex-wrap:wrap; gap:8px;">
-        <span>&copy; <span data-gn-year></span> Glamorous Nails. All rights reserved.</span>
-        <span>Made by Nana Kwame Dickson</span>
-      </div>
+      <span>&copy; <span data-gn-year></span> Glamorous Nails. All rights reserved.</span>
+      <span>Built by Nana Kwame Dickson</span>
     </div>
   </div>
 </footer>

@@ -137,6 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderPricing(data);
     renderClosedDates(data);
     renderBookingLog();
+    renderReviewsLog();
 
     document.getElementById("resetDefaultsBtn").onclick = async () => {
       if (confirm("Reset all catalog data to the original defaults? This cannot be undone.")) {
@@ -235,7 +236,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("addCategoryForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const name = document.getElementById("newCategoryName").value.trim();
-    const icon = document.getElementById("newCategoryIcon").value.trim();
+    const iconEl = document.getElementById("newCategoryIcon");
+    const icon = iconEl ? iconEl.value.trim() : "";
     if (!name) return;
     const fresh = GNStore.load();
     fresh.categories.push({ id: uniqueId(name, "cat"), name, icon, items: [] });
@@ -260,11 +262,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const name = document.getElementById("newProductName").value.trim();
     if (!name) return;
 
+    const durEl = document.getElementById("newProductDuration");
+    const featEl = document.getElementById("newProductFeatured");
     const item = {
       id: uniqueId(name, "item"),
       name,
       price: Number(document.getElementById("newProductPrice").value) || 0,
-      durationMinutes: 60
+      durationMinutes: Number(durEl?.value) || 60,
+      featured: Boolean(featEl?.checked)
     };
     const note = document.getElementById("newProductNote").value.trim();
     if (note) item.note = note;
@@ -352,6 +357,34 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("Delete failed: " + err.message);
           btn.disabled = false;
           btn.textContent = "Delete";
+        }
+      });
+    });
+  }
+
+  async function renderReviewsLog() {
+    const wrap = document.getElementById("reviewsLog");
+    if (!wrap || !GNStore.getReviews) return;
+    const list = await GNStore.getReviews();
+    wrap.innerHTML = list.length
+      ? list.map((r) => `
+          <tr>
+            <td data-label="Author">${escapeHTML(r.author || "Client")}</td>
+            <td data-label="Service">${escapeHTML(r.service || "-")}</td>
+            <td data-label="Rating">${Number(r.rating) || 5} / 5</td>
+            <td data-label="Review">${escapeHTML(r.quote || "")}</td>
+            <td data-label=""><button class="btn btn-secondary btn-sm delete-review" type="button" data-id="${escapeAttr(r.id || '')}">Delete</button></td>
+          </tr>`).join("")
+      : `<tr><td colspan="5"><p class="form-note">No reviews found.</p></td></tr>`;
+    wrap.querySelectorAll(".delete-review").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const id = btn.dataset.id;
+        if (!id || !confirm("Delete this review from Firestore?")) return;
+        try {
+          await GNStore.deleteReview(id);
+          renderReviewsLog();
+        } catch (err) {
+          alert("Delete failed (local fallback reviews are edited in data/reviews.json): " + err.message);
         }
       });
     });

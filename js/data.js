@@ -111,11 +111,28 @@ const GNStore = (() => {
   const catalogReadyPromise = new Promise((resolve) => { resolveCatalogReady = resolve; });
 
   function normalizeCatalog(data) {
+    const defaultById = {};
+    GN_DEFAULT_DATA.categories.forEach((cat) => {
+      cat.items.forEach((it) => { defaultById[it.id] = it; });
+    });
+    const rawCats = Array.isArray(data?.categories) ? data.categories : structuredClone(GN_DEFAULT_DATA.categories);
+    const categories = rawCats.map((cat) => ({
+      ...cat,
+      items: (cat.items || []).map((item) => {
+        const def = defaultById[item.id] || {};
+        return {
+          ...def,
+          ...item,
+          durationMinutes: Number(item.durationMinutes) || def.durationMinutes || 60,
+          featured: typeof item.featured === "boolean" ? item.featured : Boolean(def.featured)
+        };
+      })
+    }));
     return {
       ...structuredClone(GN_DEFAULT_DATA),
       ...(data || {}),
       contact: { ...GN_DEFAULT_DATA.contact, ...((data && data.contact) || {}) },
-      categories: Array.isArray(data?.categories) ? data.categories : structuredClone(GN_DEFAULT_DATA.categories),
+      categories,
       closed_dates: Array.isArray(data?.closed_dates) ? data.closed_dates : []
     };
   }

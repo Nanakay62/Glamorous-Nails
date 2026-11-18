@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function startAuto() {
       if (list.length <= 1) return;
       clearInterval(reviewTimer);
-      reviewTimer = setInterval(() => showSlide(idx + 1), 5500);
+      reviewTimer = setInterval(() => showSlide(idx + 1), 8000);
     }
 
     reviewsGrid.querySelector('#reviewPrev')?.addEventListener('click', () => { showSlide(idx - 1); startAuto(); });
