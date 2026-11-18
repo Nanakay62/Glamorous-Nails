@@ -216,8 +216,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const dateObj = new Date(viewDate.getFullYear(), viewDate.getMonth(), d);
       const iso = toISO(dateObj);
       const isPast = iso < todayStr;
+      const isSunday = dateObj.getDay() === 0;
       const isClosed = salon.closed_dates.includes(iso);
-      const disabled = isPast || isClosed;
+      const disabled = isPast || isClosed || isSunday;
       cells += `<button class="cal-cell${disabled ? ' cal-disabled' : ''}${state.date === iso ? ' cal-selected' : ''}" data-iso="${iso}" ${disabled ? 'disabled' : ''}>${d}</button>`;
     }
     els.calendar.innerHTML = cells;
@@ -249,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function getDayWindowMinutes(iso) {
     const d = new Date(iso + 'T00:00:00');
     const day = d.getDay(); // 0 = Sun, 6 = Sat
-    if (day === 0) return { open: 12 * 60, close: 18 * 60 };
+    if (day === 0) return { open: 0, close: 0 };
     if (day === 6) return { open: 9 * 60, close: 20 * 60 };
     return { open: 9 * 60, close: 19 * 60 };
   }
