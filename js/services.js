@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     applyFilter();
+    if (window.GNObserveReveals) window.GNObserveReveals();
   }
 
   let latestData = GNStore.load();

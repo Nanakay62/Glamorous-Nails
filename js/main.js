@@ -74,21 +74,69 @@ document.addEventListener('DOMContentLoaded', () => {
     bindSalonData();
   });
 
-  /* ---------- Reveal on scroll ---------- */
-  const revealEls = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && revealEls.length) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
+  /* ---------- Reveal on scroll (Staggered editorial motion) ---------- */
+  const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealObserver = (!prefersReducedMotion && 'IntersectionObserver' in window)
+    ? new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' })
+    : null;
+
+  function observeReveals() {
+    // 1. Auto-assign staggered delays to grid rows (75ms per card)
+    const staggerContainers = [
+      '.quick-grid',
+      '.popular-grid',
+      '.service-grid',
+      '.recent-work-grid',
+      '.careers-stats-grid',
+      '.curriculum-grid',
+      '.checklist-grid',
+      '.process-grid',
+      '.info-cards-grid'
+    ];
+    staggerContainers.forEach((sel) => {
+      document.querySelectorAll(sel).forEach((grid) => {
+        [...grid.children].forEach((child, idx) => {
+          if (!child.classList.contains('reveal')) child.classList.add('reveal');
+          if (child.tagName === 'IMG' || child.classList.contains('quick-card')) {
+            child.classList.add('reveal--scale');
+          }
+          child.style.setProperty('--reveal-delay', `${Math.min(idx % 4, 3) * 75}ms`);
+        });
       });
-    }, { threshold: 0.12 });
-    revealEls.forEach((el) => io.observe(el));
-  } else {
-    revealEls.forEach((el) => el.classList.add('is-visible'));
+    });
+
+    // 2. Hero children + split sections choreography
+    document.querySelectorAll('.hero-trieu-left > *:not(.hero-float-decor)').forEach((el, idx) => {
+      if (!el.classList.contains('reveal')) el.classList.add('reveal');
+      el.style.setProperty('--reveal-delay', `${idx * 75}ms`);
+    });
+    document.querySelectorAll('.hero-trieu-right, .shorts-embed-card, .map-embed').forEach((el) => {
+      el.classList.add('reveal', 'reveal--scale');
+      el.style.setProperty('--reveal-delay', '120ms');
+    });
+    document.querySelectorAll('.section-head, .find-us-grid > *, .two-col > *, .policy-block, .careers-banner-inner > *').forEach((el, idx) => {
+      if (!el.classList.contains('reveal')) el.classList.add('reveal');
+      if (el.parentElement && (el.parentElement.classList.contains('find-us-grid') || el.parentElement.classList.contains('two-col'))) {
+        el.style.setProperty('--reveal-delay', `${(idx % 2) * 120}ms`);
+      }
+    });
+
+    const targets = document.querySelectorAll('.reveal:not(.is-visible)');
+    if (revealObserver) {
+      targets.forEach((el) => revealObserver.observe(el));
+    } else {
+      targets.forEach((el) => el.classList.add('is-visible'));
+    }
   }
+  window.GNObserveReveals = observeReveals;
+  observeReveals();
 
   /* ---------- Hero carousel ---------- */
   const carousel = document.querySelector('.hero-carousel');
@@ -204,6 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </article>
     `).join('');
+    if (window.GNObserveReveals) window.GNObserveReveals();
   }
   renderPopularServices(salon);
   GNStore.onChange((data) => {
