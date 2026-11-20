@@ -237,8 +237,26 @@
         <details class="faq-item">
           <summary>Apprenticeship Agreement: Items to Provide &amp; Studio Rules</summary>
           <div class="faq-item-body">
-            <p style="margin-top:0;"><strong>1. Items to be provided by the apprentice:</strong> Three (3) sets of towels, Three (3) pairs of scissors, Two (2) trimmers, One (1) cotton roll, Three (3) nail files, Three (3) buffers, One (1) pack of normal nails, One (1) pack of French tips, and One (1) crate of malt.</p>
-            <p><strong>2. Rules &amp; Work Hours:</strong> Reporting time is 8:00 AM; closing time is 7:00 PM or later as required (Mon to Sat, flexible to student schedule). Full terms are included in your downloadable 3-page Agreement PDF below.</p>
+            <p style="margin:0 0 8px;"><strong>1. Items to be provided by the apprentice:</strong></p>
+            <ul style="margin:0 0 16px; padding-left:20px; display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:6px 20px;">
+              <li>Three (3) sets of towels</li>
+              <li>Three (3) pairs of scissors</li>
+              <li>Two (2) trimmers</li>
+              <li>One (1) cotton roll</li>
+              <li>Three (3) nail files</li>
+              <li>Three (3) buffers</li>
+              <li>One (1) pack of normal nails</li>
+              <li>One (1) pack of French tips</li>
+              <li>One (1) crate of malt</li>
+            </ul>
+            <p style="margin:0 0 8px;"><strong>2. Rules &amp; Work Hours:</strong></p>
+            <ul style="margin:0 0 12px; padding-left:20px; display:flex; flex-direction:column; gap:6px;">
+              <li><strong>Work Hours:</strong> Reporting time is 8:00 AM; closing time is 7:00 PM or later as required (Mon–Sat, flexible to your selected training days).</li>
+              <li><strong>Salon Cleanliness:</strong> Apprentices are responsible for keeping the salon clean at all times.</li>
+              <li><strong>Conduct &amp; Visitors:</strong> Misconduct, stealing, quarrelling, misuse of materials, and inviting friends during work hours are strictly prohibited.</li>
+              <li><strong>Attendance &amp; Duration:</strong> Lateness or unexcused absence attracts penalties. Training is expected to be completed within 1 to 2 years.</li>
+            </ul>
+            <p style="margin:0; font-size:0.92rem; color:var(--ink-soft);">Full terms and signature sections are included in your downloadable Agreement PDF below.</p>
           </div>
         </details>
       </div>
@@ -251,7 +269,7 @@
       <div class="booking-panel">
         <span class="careers-eyebrow">Apprenticeship &amp; Training Form</span>
         <h2 style="margin-bottom:8px;">Start your beauty training</h2>
-        <p class="lede" style="margin-bottom:20px;">Fill in your details and tick the courses you want to learn. Submitting generates your complete 3-page Apprenticeship Agreement PDF ready to share on WhatsApp.</p>
+        <p class="lede" style="margin-bottom:20px;">Fill in your details and tick the courses you want to learn. Submitting generates your complete Apprenticeship Agreement PDF ready to share on WhatsApp.</p>
         <form id="careersForm">
           <div class="field">
             <label for="cr-name">Applicant full name</label>
@@ -382,12 +400,17 @@
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: "pt", format: "a4" });
     const pageW = doc.internal.pageSize.getWidth();
+    const pageH = doc.internal.pageSize.getHeight();
     const margin = 48;
     const maxW = pageW - margin * 2;
+    const contentStartY = 114;
+    const bottomLimit = pageH - 48;
     const todayStr = new Date().toLocaleDateString("en-GB", { dateStyle: "long" });
     const courseList = tracks.length ? tracks : ["Pedicure", "Manicure", "Nail Extensions", "Bridal Make-Up", "Eyelash Extensions", "Facial Treatments"];
     const courseSummary = courseList.join(", ");
     const daysSummary = days && days.length ? days.join(", ") : "Flexible (Monday to Saturday)";
+
+    let y = contentStartY;
 
     function drawHeader(subtitle) {
       doc.setFillColor(184, 29, 94);
@@ -402,40 +425,48 @@
       doc.text(`CONTACT: 0240876736 / 0502743916   |   ${subtitle}`, margin, 67);
     }
 
-    function writePara(text, y, fontSize = 10.5, bold = false, color = [36, 16, 27]) {
+    function ensureSpace(needed) {
+      if (y + needed > bottomLimit) {
+        doc.addPage();
+        y = contentStartY;
+      }
+    }
+
+    function writePara(text, fontSize = 10.5, bold = false, color = [36, 16, 27], extraGap = 6) {
       doc.setFont("helvetica", bold ? "bold" : "normal");
       doc.setFontSize(fontSize);
       doc.setTextColor(...color);
       const lines = doc.splitTextToSize(text, maxW);
+      const blockH = lines.length * (fontSize + 4);
+      ensureSpace(blockH);
       doc.text(lines, margin, y);
-      return y + lines.length * (fontSize + 4) + 6;
+      y += blockH + extraGap;
     }
 
-    function writeHeading(text, y) {
+    function writeHeading(text, minBodyHeight = 40) {
+      ensureSpace(22 + minBodyHeight);
       doc.setFont("helvetica", "bold");
       doc.setFontSize(11.5);
       doc.setTextColor(184, 29, 94);
       doc.text(text, margin, y);
       doc.setDrawColor(238, 214, 224);
       doc.line(margin, y + 5, pageW - margin, y + 5);
-      return y + 22;
+      y += 22;
     }
 
-    // ============ PAGE 1: AGREEMENT LETTER, ITEMS & FEES ============
-    drawHeader("Page 1 of 3");
-    let y = 114;
-    y = writeHeading("APPRENTICESHIP AGREEMENT LETTER", y);
-    y = writePara(`Applicant: ${name}   |   Phone / WhatsApp: ${rawPhone}   |   Date: ${todayStr}`, y, 10, true);
-    y = writePara(`Selected Training Days: ${daysSummary}`, y, 10, true, [184, 29, 94]);
+    // ============ AGREEMENT LETTER, ITEMS & FEES ============
+    writeHeading("APPRENTICESHIP AGREEMENT LETTER");
+    writePara(`Applicant: ${name}   |   Phone / WhatsApp: ${rawPhone}   |   Date: ${todayStr}`, 10, true);
+    writePara(`Selected Training Days: ${daysSummary}`, 10, true, [184, 29, 94]);
     y += 4;
-    y = writePara(
+    writePara(
       `I, Madam Tsodzinee Adra, hereby refer to your application and our discussion regarding the apprenticeship program at Glamorous Nails, which includes ${courseSummary}.`,
-      y, 10.8
+      10.8
     );
-    y = writePara("I am pleased to inform you that your request has been approved, subject to the following terms and conditions:", y, 10.8);
+    writePara("I am pleased to inform you that your request has been approved, subject to the following terms and conditions:", 10.8);
 
     y += 8;
-    y = writeHeading("1. ITEMS TO BE PROVIDED BY THE APPRENTICE", y);
+    writeHeading("1. ITEMS TO BE PROVIDED BY THE APPRENTICE");
     const items = [
       "Three (3) sets of towels",
       "Three (3) pairs of scissors",
@@ -448,19 +479,16 @@
       "One (1) crate of malt"
     ];
     items.forEach((it) => {
-      y = writePara(`-  ${it}`, y, 10.5);
-      y -= 3;
+      writePara(`-  ${it}`, 10.5, false, [36, 16, 27], 3);
     });
 
     y += 10;
-    y = writeHeading("2. ADMISSION FEES", y);
-    y = writePara("An amount determined by Glamorous Nails based on the duration of the training (months or years).", y, 10.5);
+    writeHeading("2. ADMISSION FEES");
+    writePara("An amount determined by Glamorous Nails based on the duration of the training (months or years).", 10.5);
 
-    // ============ PAGE 2: RULES, REGULATIONS & DUTIES ============
-    doc.addPage();
-    drawHeader("Page 2 of 3");
-    y = 114;
-    y = writeHeading("3. RULES AND REGULATIONS", y);
+    // ============ RULES, REGULATIONS & DUTIES ============
+    y += 10;
+    writeHeading("3. RULES AND REGULATIONS", 60);
     const rules = [
       ["Work Hours:", `Reporting time is 8:00 AM; closing time is 7:00 PM or later as required. Selected training days: ${daysSummary}.`],
       ["Salon Cleanliness:", "The apprentice is responsible for maintaining cleanliness in the salon at all times."],
@@ -471,50 +499,52 @@
       ["Training Period:", "The apprentice is expected to complete the training within one (1) to two (2) years and must not exhibit laziness."]
     ];
     rules.forEach(([title, body]) => {
-      y = writePara(`${title} ${body}`, y, 10.3);
-      y += 2;
+      writePara(`${title} ${body}`, 10.3, false, [36, 16, 27], 8);
     });
 
     y += 10;
-    y = writeHeading("4. DUTIES OF GLAMOROUS NAILS", y);
-    y = writePara("Glamorous Nails will provide the apprentice with practical training and instruction in techniques of beauty therapy, including:", y, 10.5);
+    writeHeading("4. DUTIES OF GLAMOROUS NAILS", 60);
+    writePara("Glamorous Nails will provide the apprentice with practical training and instruction in techniques of beauty therapy, including:", 10.5);
     courseList.forEach((course) => {
-      y = writePara(`-  ${course}`, y, 10.5, true);
-      y -= 3;
+      writePara(`-  ${course}`, 10.5, true, [36, 16, 27], 3);
     });
     y += 6;
-    y = writePara(
+    writePara(
       "At its discretion, Glamorous Nails may allow a passed trainee to practice at the salon for one (1) year, subject to good behaviour. Glamorous Nails will ensure the apprentice acquires the necessary expertise within the agreed period.",
-      y, 10.5
+      10.5
     );
 
-    // ============ PAGE 3: SIGNATURES & DECLARATION ============
-    doc.addPage();
-    drawHeader("Page 3 of 3");
-    y = 114;
-    y = writeHeading("ACCEPTANCE / DECLARATION", y);
-    y = writePara(
+    // ============ SIGNATURES & DECLARATION ============
+    y += 12;
+    writeHeading("ACCEPTANCE / DECLARATION", 110);
+    writePara(
       `I, ${name}, hereby agree to the terms and conditions governing the apprenticeship training at Glamorous Nails and promise to abide by them.`,
-      y, 11, true
+      11, true
     );
-    y = writePara(`Experience Level: ${level}   |   Training Days: ${daysSummary}${notes ? `   |   Notes: ${notes}` : ""}`, y, 9.8, false, [94, 69, 82]);
-    y += 10;
-    y = writePara(`Applicant Name: ${name}`, y, 10.5);
-    y = writePara(`Signature (Apprentice): ___________________________     Date: ${todayStr}`, y, 10.5);
+    writePara(`Experience Level: ${level}   |   Training Days: ${daysSummary}${notes ? `   |   Notes: ${notes}` : ""}`, 9.8, false, [94, 69, 82]);
+    y += 8;
+    writePara(`Applicant Name: ${name}`, 10.5);
+    writePara(`Signature (Apprentice): ___________________________     Date: ${todayStr}`, 10.5);
 
-    y += 16;
-    y = writeHeading("PARENT / GUARDIAN / SPOUSE DETAILS", y);
-    y = writePara(`Name: ${guardianName || "______________________________________"}`, y, 10.5);
-    y = writePara(`Relationship (Mr./Mrs./Miss): ${guardianRel || "_________________________"}`, y, 10.5);
-    y = writePara(`Contact Number: ${guardianPhone || "________________________________"}`, y, 10.5);
-    y = writePara("Signature: ___________________________     Date: _______________________", y, 10.5);
+    y += 14;
+    writeHeading("PARENT / GUARDIAN / SPOUSE DETAILS", 100);
+    writePara(`Name: ${guardianName || "______________________________________"}`, 10.5);
+    writePara(`Relationship (Mr./Mrs./Miss): ${guardianRel || "_________________________"}`, 10.5);
+    writePara(`Contact Number: ${guardianPhone || "________________________________"}`, 10.5);
+    writePara("Signature: ___________________________     Date: _______________________", 10.5);
 
-    y += 16;
-    y = writeHeading("OFFICE USE ONLY", y);
-    y = writePara("Date of Commencement: _________________________________", y, 10.5);
-    y = writePara("Date of Completion: ____________________________________", y, 10.5);
-    y = writePara("Authorized Representative: Madam Tsodzinee Adra", y, 10.5, true);
-    y = writePara("Signature (Authorized Representative of Glamorous Nails): ___________________________", y, 10.5);
+    y += 14;
+    writeHeading("OFFICE USE ONLY", 100);
+    writePara("Date of Commencement: _________________________________", 10.5);
+    writePara("Date of Completion: ____________________________________", 10.5);
+    writePara("Authorized Representative: Madam Tsodzinee Adra", 10.5, true);
+    writePara("Signature (Authorized Representative of Glamorous Nails): ___________________________", 10.5);
+
+    const totalPages = doc.getNumberOfPages();
+    for (let p = 1; p <= totalPages; p++) {
+      doc.setPage(p);
+      drawHeader(`Page ${p} of ${totalPages}`);
+    }
 
     return doc;
   }
@@ -580,7 +610,7 @@
       guardianName ? `Parent/Guardian/Spouse: ${guardianName}${guardianRel ? ` (${guardianRel})` : ""}` : "",
       notes ? `Notes: ${notes}` : "",
       ``,
-      `(My 3-page Apprenticeship Agreement PDF "${lastPdfName}" has been downloaded and is attached.)`
+      `(My ${pdfDoc ? pdfDoc.getNumberOfPages() : 2}-page Apprenticeship Agreement PDF "${lastPdfName}" has been downloaded and is attached.)`
     ].filter(Boolean).join("\n");
 
     const waUrl = `https://wa.me/${salon.contact.whatsapp_dispatch}?text=${encodeURIComponent(msg)}`;
