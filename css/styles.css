@@ -1332,6 +1332,33 @@ img.ph {
   align-items: center;
   line-height: 1.05;
 }
+.nav-brand-logo {
+  height: 54px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+@media (min-width: 768px) {
+  .nav-brand-logo {
+    height: 62px;
+  }
+}
+.footer-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 8px 14px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+.footer-brand-logo {
+  height: 58px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
 .nav-wordmark-main {
   font-family: var(--f-display);
   font-weight: 700;

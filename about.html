@@ -16,7 +16,7 @@
 <meta name="twitter:title" content="About | Glamorous Nails">
 <meta name="twitter:description" content="Meet Tsodzinee Adra and Glamorous Nails at Haatso Supermarket Junction, Accra.">
 <meta name="twitter:image" content="https://glamorousnails.vercel.app/assets/images/CEO.jpeg">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23B81D5E'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='15' fill='%23FFF9F6'%3EGN%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -39,9 +39,11 @@
   <div class="container">
     <div class="nav-top-row">
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
-      <a class="nav-wordmark" href="index.html">
-        <span class="nav-wordmark-main">Glamorous Nails</span>
-        <span class="nav-wordmark-sub">Haatso · Accra</span>
+      <a class="nav-wordmark" href="index.html" aria-label="Glamorous Nails — Home">
+        <picture>
+          <source srcset="assets/logo.webp" type="image/webp">
+          <img class="nav-brand-logo" src="assets/logo.png" alt="Glamorous Nails" width="90" height="62" decoding="async" fetchpriority="high">
+        </picture>
       </a>
       <div style="display:flex; align-items:center; gap:8px;">
         <button class="nav-icon-btn" id="navSearchBtn" aria-label="Search services">
@@ -131,7 +133,12 @@
   <div class="container">
     <div class="footer-grid">
       <div>
-        <div class="nav-logo" style="margin-bottom:8px;">Glamorous Nails</div>
+        <a href="index.html" class="footer-brand-badge" aria-label="Glamorous Nails — Home">
+          <picture>
+            <source srcset="assets/logo.webp" type="image/webp">
+            <img class="footer-brand-logo" src="assets/logo.png" alt="Glamorous Nails" width="84" height="58" loading="lazy" decoding="async">
+          </picture>
+        </a>
         <p class="form-note" style="color:rgba(255,255,255,0.75);">Haatso Supermarket Junction, Accra · Cash or Mobile Money in person.</p>
       </div>
       <div>
