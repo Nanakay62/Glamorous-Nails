@@ -18,7 +18,7 @@ const GN_DEFAULT_DATA = {
   "currency": "GH\u20B5",
   "contact": {
     "whatsapp_dispatch": "233502743916",
-    "backup_phone": "+233502743916",
+    "backup_phone": "+233240876736",
     "instagram": "glamorousbeautyplus",
     "facebook": "Arda Sodjina",
     "tiktok_url": "https://vm.tiktok.com/ZS9Mjckf9hr5v-1TMml/",
