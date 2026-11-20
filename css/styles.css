@@ -1954,8 +1954,31 @@ img.ph {
   background: var(--white);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
-  padding: 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   box-shadow: var(--shadow-sm);
+}
+.curriculum-card-media {
+  width: 100%;
+  height: 156px;
+  overflow: hidden;
+  background: var(--bg-soft, #fdf3f7);
+  border-bottom: 1px solid var(--line);
+}
+.curriculum-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.35s ease;
+}
+.curriculum-card:hover .curriculum-card-media img {
+  transform: scale(1.04);
+}
+.curriculum-card-body {
+  padding: 20px 24px 24px;
 }
 .curriculum-card h3 {
   font-family: var(--f-display);
